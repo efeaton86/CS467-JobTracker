@@ -4,12 +4,9 @@ application factory function that creates the app
 import os
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_pymongo import PyMongo
 
 from config import ProductionConfig, DevelopmentConfig
-
-# TODO: set up MongoDB
-# db = SQLAlchemy()
 
 
 def create_app():
@@ -23,9 +20,6 @@ def create_app():
         # Local development, where we'll use environment variables.
         print("Loading config.development and environment variables from .env file.")
         app.config.from_object(DevelopmentConfig)
-
-    # initialize db
-    # db.init_app(app)
 
     # register blueprints
     from api.contacts.contacts import contacts_blueprint
