@@ -16,7 +16,7 @@ class BaseConfig:
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SECRET_KEY = os.getenv('SECRET_KEY')
-    # uri = "mongodb+srv://efeaton86:<password>@cluster0.uwxwhy5.mongodb.net/?retryWrites=true&w=majority"
+
     # Local to instance settings from .env file
     DBNAME = os.getenv('MONGO_CLUSTER_NAME')
     DBUSER = os.getenv('MONGO_USERNAME')
