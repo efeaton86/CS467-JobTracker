@@ -2,6 +2,8 @@
 Flask configuration settings
 """
 import os
+import urllib.parse
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,18 +18,13 @@ class DevelopmentConfig(BaseConfig):
     SECRET_KEY = os.getenv('SECRET_KEY')
 
     # Local to instance settings from .env file
-    DBHOST = os.getenv('POSTGRESQL_HOST')
-    DBNAME = os.getenv('POSTGRESQL_DATABASE')
-    DBUSER = os.getenv('POSTGRESQL_USERNAME')
-    DBPASS = os.getenv('POSTGRESQL_PASSWORD')
+    DBNAME = os.getenv('MONGO_CLUSTER_NAME')
+    DBUSER = os.getenv('MONGO_USERNAME')
+    DBPASS = os.getenv('MONGO_PASSWORD')
 
-    # hard coding port for local development
-    SQLALCHEMY_DATABASE_URI = 'postgresql://{dbuser}:{dbpass}@{dbhost}:5432/{dbname}'.format(
-        dbuser=DBUSER,
-        dbpass=DBPASS,
-        dbhost=DBHOST,
-        dbname=DBNAME
-    )
+    # MongoDB connection string for local development
+    MONGODB_DATABASE_URI = \
+        f'mongodb+srv://{DBUSER}:{DBPASS}@{DBNAME}.uwxwhy5.mongodb.net/?retryWrites=true&w=majority'
 
 
 class ProductionConfig(BaseConfig):
