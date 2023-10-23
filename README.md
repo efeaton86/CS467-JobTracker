@@ -1,6 +1,5 @@
-# CS467-JobTracker
+# CS467-JobTrekker
 
-In an environment where students apply to numerous internships/new grad positions, often exceeding fifty within a single application cycle, maintaining meticulous organization is imperative. To address this challenge, we embark on a mission to develop a Job Tracker web application tailored for Computer Science students. This web application will serve as an indispensable tool, empowering users to methodically monitor their internship and job hunting endeavors.
 
 ## Table of Contents
 
@@ -15,8 +14,7 @@ In an environment where students apply to numerous internships/new grad position
 
 ## Introduction
 
-Provide an introduction to your project. Explain what it does and why it's useful.
-
+In an environment where students apply to numerous internships/new grad positions, often exceeding fifty within a single application cycle, maintaining meticulous organization is imperative. To address this challenge, we embark on a mission to develop a Job Tracker web application tailored for Computer Science students. This web application will serve as an indispensable tool, empowering users to methodically monitor their internship and job hunting endeavors.
 ## Prerequisites
 
 List any prerequisites that need to be installed or set up before running the project.
