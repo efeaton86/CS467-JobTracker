@@ -6,8 +6,8 @@
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
-  - [Front End](#front-end)
-  - [Back End](#back-end)
+  - [Local Development Outside of Docker Containers](#local-development-with-docker-containers)
+  - [Local Development with Docker Containers](#local-development-with-docker-containers)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
@@ -23,7 +23,9 @@ List any prerequisites that need to be installed or set up before running the pr
 - Prerequisite 2
 - Prerequisite 3
 
-## Local Development Outside of Docker Containers
+## Getting Started
+
+### Local Development Outside of Docker Containers
 - To run the app for local development with hot reloads:
 1. Change to server directory
 ```bash
@@ -43,7 +45,7 @@ yarn start
 ```
 
 
-## Local Development with Docker Containers
+### Local Development with Docker Containers
 - To run the app for local development with hot reloads:
 ```bash
     docker compose -f docker-compose-dev.yml up 
