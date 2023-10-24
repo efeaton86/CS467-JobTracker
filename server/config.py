@@ -2,7 +2,6 @@
 Flask configuration settings
 """
 import os
-import urllib.parse
 
 from dotenv import load_dotenv
 
@@ -23,12 +22,12 @@ class DevelopmentConfig(BaseConfig):
     DBPASS = os.getenv('MONGO_PASSWORD')
 
     # MongoDB connection string for local development
-    MONGODB_DATABASE_URI = \
+    MONGO_URI = \
         f'mongodb+srv://{DBUSER}:{DBPASS}@{DBNAME}.uwxwhy5.mongodb.net/?retryWrites=true&w=majority'
 
 
 class ProductionConfig(BaseConfig):
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = os.getenv('APPSETTING_SECRET_KEY')
 
     # Configure allowed host names that can be served and trusted origins for Azure Container Apps.
     ALLOWED_HOSTS = ['.azurecontainerapps.io'] if os.getenv('RUNNING_IN_PRODUCTION') else []
@@ -36,15 +35,12 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
 
     # azure web app service prefixes environment variables with APPSETTING*
-    DBHOST = os.getenv('APPSETTING_POSTGRESQL_HOST')
-    DBNAME = os.getenv('APPSETTING_POSTGRESQL_DATABASE')
-    DBUSER = os.getenv('APPSETTING_POSTGRESQL_USERNAME')
-    DBPASS = os.getenv('APPSETTING_POSTGRESQL_PASSWORD')
+    MONGODB_HOST = os.getenv('APPSETTING_MONGODB_HOST')
+    MONGODB_CLUSTER_NAME = os.getenv('APPSETTING_MONGODB_CLUSTER_NAME')
+    MONGODB_PORT = os.getenv('APPSETTING_MONGODB_PORT')
+    MONGODB_PASSWORD = os.getenv('APPSETTING_MONGODB_PASSWORD')
 
-    # Configure database connection for Azure PostgreSQL Flexible api instance.
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
-        dbuser=DBUSER,
-        dbpass=DBPASS,
-        dbhost=DBHOST,
-        dbname=DBNAME
-    )
+    # Configure database connection for Azure Cosmos MongoDB.
+    MONGO_URI = \
+        (f'mongodb://{MONGODB_CLUSTER_NAME}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/?ssl=true&replicaSet'
+         f'=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@jobtrekker-db@')

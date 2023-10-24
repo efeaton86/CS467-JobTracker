@@ -1,9 +1,10 @@
 """
-
+this module contains the structure of a contact
 """
 
 
 class Contact:
+
     def __init__(self, first_name, last_name, mobile_phone, work_phone, email,
                  linkedin, employer, user_id, contact_id=None):
         self.contact_id = contact_id
@@ -15,4 +16,3 @@ class Contact:
         self.email = email
         self.linkedin = linkedin
         self.employer = employer
-
