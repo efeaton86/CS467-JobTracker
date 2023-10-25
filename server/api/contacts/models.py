@@ -1,18 +1,16 @@
 """
-this module contains the structure of a contact
+this module contains the schema of a Contact and is used for serialization/deserialization
 """
+from marshmallow import Schema, fields
 
 
-class Contact:
-
-    def __init__(self, first_name, last_name, mobile_phone, work_phone, email,
-                 linkedin, employer, user_id, contact_id=None):
-        self.contact_id = contact_id
-        self.user_id = user_id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.mobile_phone = mobile_phone
-        self.work_phone = work_phone
-        self.email = email
-        self.linkedin = linkedin
-        self.employer = employer
+class ContactSchema(Schema):
+    id = fields.String(dump_only=True)
+    user_id = fields.String(required=True)
+    first_name = fields.String(required=True)
+    last_name = fields.String(required=True)
+    mobile_phone = fields.String()
+    work_phone = fields.String()
+    email = fields.String()
+    linkedin = fields.String()
+    employer = fields.String()

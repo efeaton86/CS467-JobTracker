@@ -16,14 +16,15 @@ class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SECRET_KEY = os.getenv('SECRET_KEY')
 
-    # Local to instance settings from .env file
-    DBNAME = os.getenv('MONGO_CLUSTER_NAME')
     DBUSER = os.getenv('MONGO_USERNAME')
     DBPASS = os.getenv('MONGO_PASSWORD')
 
     # MongoDB connection string for local development
-    MONGO_URI = \
-        f'mongodb+srv://{DBUSER}:{DBPASS}@{DBNAME}.uwxwhy5.mongodb.net/?retryWrites=true&w=majority'
+    # using MongoDB Atlas version 3.4 or later as there I'm getting a DNS error using the stable API
+    MONGO_URI = 'mongodb://{DBUSER}:{DBPASS}@ac-co4p11z-shard-00-00.uwxwhy5.mongodb.net:27017,ac-co4p11z-shard-00-01.uwxwhy5.mongodb.net:27017,ac-co4p11z-shard-00-02.uwxwhy5.mongodb.net:27017/?ssl=true&replicaSet=atlas-dglecf-shard-0&authSource=admin&retryWrites=true&w=majority'.format(
+        DBUSER=DBUSER,
+        DBPASS=DBPASS,
+    )
 
 
 class ProductionConfig(BaseConfig):
