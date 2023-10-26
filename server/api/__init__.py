@@ -34,6 +34,6 @@ def create_app():
 
     # register apis
     from api.contacts.contacts import contact_api
-    api.add_namespace(contact_api, path='/api/contacts/')
+    api.add_namespace(contact_api, path='/api/contacts')
 
     return app
