@@ -3,8 +3,9 @@ exposes an api that allows CRUD operations for a user's contacts
 """
 import time
 
-from flask import Blueprint
+from flask import Blueprint, request
 from flask_restx import Namespace, Resource, fields
+from marshmallow.exceptions import ValidationError
 
 from .models import ContactSchema
 from api import mongo
@@ -14,7 +15,7 @@ contact_api = Namespace('contacts', description="Operations related to a user's 
 
 # specifies the expected structure of data in the contact_api
 contact_model = contact_api.model('Contact', {
-    'user_id': fields.String(required=True, description='User ID'),
+    'user_id': fields.String(readOnly=True, description='User ID'),
     'first_name': fields.String(required=True, description='First Name'),
     'last_name': fields.String(required=True, description='Last Name'),
     'mobile_phone': fields.String(description='Mobile Phone'),
@@ -27,12 +28,31 @@ contact_model = contact_api.model('Contact', {
 
 @contact_api.route('/')
 class ContactsResource(Resource):
+    @contact_api.marshal_with(contact_model)
     def get(self):
         """return all contacts - returning the time as a placeholder"""
         return {"hello": time.time()}
 
+    @contact_api.expect(contact_model, validate=True)
     def post(self):
         """create a contact"""
+
+        # get JWT token and process to extract user's id
+        authorization_header = request.headers.get('Authorization')
+
+        data = request.get_json()
+        # validate data
+        try:
+            contact_data = ContactSchema().load(data)
+        except ValidationError as e:
+            return {'message': 'Validation error', 'errors': e.messages}
+
+        # create contact
+        insert_id = mongo.db['contacts'].insert_one(contact_data).inserted_id
+
+        # get created contact
+
+        # return new contact
 
 
 @contact_api.route('/<string:id>')
