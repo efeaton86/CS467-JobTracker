@@ -15,7 +15,7 @@ contact_api = Namespace('contacts', description="Operations related to a user's 
 
 # specifies the expected structure of data in the contact_api
 contact_model = contact_api.model('Contact', {
-    'user_id': fields.String(readOnly=True, description='User ID'),
+    'contact_id': fields.String(readOnly=True, description='User ID'),
     'first_name': fields.String(required=True, description='First Name'),
     'last_name': fields.String(required=True, description='Last Name'),
     'mobile_phone': fields.String(description='Mobile Phone'),
@@ -57,8 +57,18 @@ class ContactsResource(Resource):
 
 @contact_api.route('/<string:id>')
 class ContactResource(Resource):
+    @contact_api.marshal_with(contact_model)
     def get(self, id):
-        """fetch a specific contact by id."""
+        """get a user's contact by contact id."""
+        authorization_header = request.headers.get('Authorization')
+        user_id = authorization_header  # get user id from token
+
+        user_contact = mongo.db['contacts'].find_one({"user_id": user_id, "contact_id": id})
+
+        if not user_contact:
+            return contact_api.abort(404, f'User with id {id} was not found.')
+        return user_contact, 200
+
 
     def put(self, id):
         """update a contact"""
