@@ -37,7 +37,7 @@ class ContactsResource(Resource):
     def post(self):
         """create a contact"""
 
-        # get JWT token and process to extract user's id
+        # TODO: get JWT token and process to extract user's id
         authorization_header = request.headers.get('Authorization')
 
         data = request.get_json()
@@ -69,9 +69,25 @@ class ContactResource(Resource):
             return contact_api.abort(404, f'User with id {id} was not found.')
         return user_contact, 200
 
-
+    @contact_api.expect(contact_model, validate=True)
+    @contact_api.marshal_with(contact_model)
     def put(self, id):
-        """update a contact"""
+        """update a user's contact by contact id"""
+        # TODO: get JWT token and process to extract user's id
+        authorization_header = request.headers.get('Authorization')
+        user_id = authorization_header  # get user id from token
+
+        filter_by = {"user_id": user_id, "contact_id": id}
+        # TODO: get data to update
+        data = request.get_json()
+        data_to_update = {"$set": data}
+
+        update_result = mongo.db['contacts'].update_one(filter_by, data_to_update)
+        if update_result['matched_count'] == 0:
+            contact_api.abort(404, f'Unable to find a contact with id {id} and update it.')
+
+        return mongo.db['contacts'].find_one({"user_id": user_id, "contact_id": id})
+
 
     def delete(self, id):
         """delete a contact"""
