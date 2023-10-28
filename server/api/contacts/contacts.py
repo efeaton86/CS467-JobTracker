@@ -31,14 +31,22 @@ class ContactsResource(Resource):
     @contact_api.marshal_with(contact_model)
     def get(self):
         """return all contacts - returning the time as a placeholder"""
+        # TODO: refactor once auth logic is implemented
+        authorization_header = request.headers.get('Authorization')
+        user_jwt = authorization_header.split("Bearer ")[1]
+        user_id = user_jwt
+        mongo.db['contacts'].find({"user_id": user_id})
+
         return {"hello": time.time()}
 
     @contact_api.expect(contact_model, validate=True)
     def post(self):
         """create a contact"""
 
-        # TODO: get JWT token and process to extract user's id
+        # TODO: refactor once auth logic is implemented
         authorization_header = request.headers.get('Authorization')
+        user_jwt = authorization_header.split("Bearer ")[1]
+        user_id = user_jwt
 
         data = request.get_json()
         # validate data
@@ -60,8 +68,10 @@ class ContactResource(Resource):
     @contact_api.marshal_with(contact_model)
     def get(self, id):
         """get a user's contact by contact id."""
+        # TODO: refactor once auth logic is implemented
         authorization_header = request.headers.get('Authorization')
-        user_id = authorization_header  # get user id from token
+        user_jwt = authorization_header.split("Bearer ")[1]
+        user_id = user_jwt
 
         user_contact = mongo.db['contacts'].find_one({"user_id": user_id, "contact_id": id})
 
@@ -73,9 +83,10 @@ class ContactResource(Resource):
     @contact_api.marshal_with(contact_model)
     def put(self, id):
         """update a user's contact by contact id"""
-        # TODO: get JWT token and process to extract user's id
+        # TODO: refactor once auth logic is implemented
         authorization_header = request.headers.get('Authorization')
-        user_id = authorization_header  # get user id from token
+        user_jwt = authorization_header.split("Bearer ")[1]
+        user_id = user_jwt
 
         filter_by = {"user_id": user_id, "contact_id": id}
         # TODO: get data to update
@@ -91,9 +102,10 @@ class ContactResource(Resource):
 
     def delete(self, id):
         """delete a contact"""
-        # TODO: get JWT token and process to extract user's id
+        # TODO: refactor once auth logic is implemented
         authorization_header = request.headers.get('Authorization')
-        user_id = authorization_header  # get user id from token
+        user_jwt = authorization_header.split("Bearer ")[1]
+        user_id = user_jwt
 
         filter_by = {"user_id": user_id, "contact_id": id}
         # TODO: get data to update
