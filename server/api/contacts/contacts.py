@@ -3,7 +3,7 @@ exposes an api that allows CRUD operations for a user's contacts
 """
 import time
 
-from flask import Blueprint, request
+from flask import Blueprint, request, make_response
 from flask_restx import Namespace, Resource, fields
 from marshmallow.exceptions import ValidationError
 
@@ -91,4 +91,16 @@ class ContactResource(Resource):
 
     def delete(self, id):
         """delete a contact"""
+        # TODO: get JWT token and process to extract user's id
+        authorization_header = request.headers.get('Authorization')
+        user_id = authorization_header  # get user id from token
 
+        filter_by = {"user_id": user_id, "contact_id": id}
+        # TODO: get data to update
+        data = request.get_json()
+        data_to_update = {"$set": data}
+
+        delete_result = mongo.db['contacts'].delete_one(filter_by, data_to_update)
+        if delete_result['matched_count'] == 0:
+            contact_api.abort(404, f'Unable to find a contact with id {id} and delete it.')
+        return make_response("", 204)
