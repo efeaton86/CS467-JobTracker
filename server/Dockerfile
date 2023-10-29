@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 # set working dir to /api
-WORKDIR /api
+WORKDIR /server
 
 # copy server contents into the container at the Working dir = /api
 COPY ./server .
