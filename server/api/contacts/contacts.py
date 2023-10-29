@@ -42,25 +42,22 @@ class ContactsResource(Resource):
     @contact_api.expect(contact_model, validate=True)
     def post(self):
         """create a contact"""
-
         # TODO: refactor once auth logic is implemented
         authorization_header = request.headers.get('Authorization')
         user_jwt = authorization_header.split("Bearer ")[1]
-        user_id = user_jwt
+        user_id = user_jwt  # get_user_id_from_token(user_jwt)
 
         data = request.get_json()
-        # validate data
         try:
             contact_data = ContactSchema().load(data)
         except ValidationError as e:
             return {'message': 'Validation error', 'errors': e.messages}
-
-        # create contact
+        
+        # TODO: validate if contact already exists
+        contact_data['user_id'] = user_id
         insert_id = mongo.db['contacts'].insert_one(contact_data).inserted_id
-
-        # get created contact
-
-        # return new contact
+        user_contact = mongo.db['contacts'].find_one({"_id": insert_id})
+        return ContactSchema().dump(user_contact), 201
 
 
 @contact_api.route('/<string:id>')
