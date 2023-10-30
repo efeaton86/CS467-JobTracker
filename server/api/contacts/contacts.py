@@ -10,7 +10,6 @@ from marshmallow.exceptions import ValidationError
 from .models import ContactSchema
 from api import mongo
 
-contacts_blueprint = Blueprint('contacts_blueprint', __name__)
 contact_api = Namespace('contacts', description="Operations related to a user's contacts")
 
 # specifies the expected structure of data in the contact_api
@@ -28,14 +27,14 @@ contact_model = contact_api.model('Contact', {
 
 @contact_api.route('/')
 class ContactsResource(Resource):
-    @contact_api.marshal_with(contact_model)
+    # @contact_api.marshal_with(contact_model)
     def get(self):
         """return all contacts - returning the time as a placeholder"""
         # TODO: refactor once auth logic is implemented
-        authorization_header = request.headers.get('Authorization')
-        user_jwt = authorization_header.split("Bearer ")[1]
-        user_id = user_jwt
-        mongo.db['contacts'].find({"user_id": user_id})
+        # authorization_header = request.headers.get('Authorization')
+        # user_jwt = authorization_header.split("Bearer ")[1]
+        # user_id = user_jwt
+        # mongo.db['contacts'].find({"user_id": user_id})
 
         return {"hello": time.time()}
 

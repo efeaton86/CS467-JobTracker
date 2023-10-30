@@ -36,4 +36,5 @@
     ]
   },
   "proxy": "http://127.0.0.1:5001"
+//  "proxy": "http://api:5001"  uncomment this line, and comment out line above, for development in docker containers
 }
