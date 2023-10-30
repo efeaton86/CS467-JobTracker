@@ -7,7 +7,7 @@ from flask import Flask
 from flask_pymongo import PyMongo
 from flask_restx import Api
 
-from config import ProductionConfig, DevelopmentConfig
+from config import ProductionConfig, DevelopmentConfig, TestConfig
 
 mongo = PyMongo()
 

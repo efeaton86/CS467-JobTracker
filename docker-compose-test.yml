@@ -10,9 +10,8 @@ services:
     depends_on:
       - api-mongodb
   api-mongodb:
-    build:
-      context: .
-      dockerfile: db/Dockerfile
-    image: test/jobtrekker-app-mongodb
-    expose:
-      - 27017
+    image: mongo:6-jammy
+    ports:
+      - 27017:27017
+    container_name: mongodb-test
+
