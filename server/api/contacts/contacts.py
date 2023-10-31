@@ -1,9 +1,8 @@
 """
 exposes an api that allows CRUD operations for a user's contacts
 """
-import time
 
-from flask import Blueprint, request, make_response
+from flask import request, make_response, current_app
 from flask_restx import Namespace, Resource, fields
 from marshmallow.exceptions import ValidationError
 
@@ -14,7 +13,8 @@ contact_api = Namespace('contacts', description="Operations related to a user's 
 
 # specifies the expected structure of data in the contact_api
 contact_model = contact_api.model('Contact', {
-    'contact_id': fields.String(readOnly=True, description='User ID'),
+    '_id': fields.String(readOnly=True, description='Object ID'),
+    'user_id': fields.Integer(description='User ID'),
     'first_name': fields.String(required=True, description='First Name'),
     'last_name': fields.String(required=True, description='Last Name'),
     'mobile_phone': fields.String(description='Mobile Phone'),
@@ -29,14 +29,14 @@ contact_model = contact_api.model('Contact', {
 class ContactsResource(Resource):
     # @contact_api.marshal_with(contact_model)
     def get(self):
-        """return all contacts - returning the time as a placeholder"""
+        """return all of a user's contacts"""
         # TODO: refactor once auth logic is implemented
-        # authorization_header = request.headers.get('Authorization')
-        # user_jwt = authorization_header.split("Bearer ")[1]
-        # user_id = user_jwt
-        # mongo.db['contacts'].find({"user_id": user_id})
+        authorization_header = request.headers.get('Authorization')
+        user_jwt = authorization_header.split("Bearer ")[1]
+        user_id = user_jwt
+        user_contacts = mongo.db['contacts'].find({"user_id": user_id})
 
-        return {"hello": time.time()}
+        return ContactSchema(many=True).dump(user_contacts), 200
 
     @contact_api.expect(contact_model, validate=True)
     def post(self):

@@ -14,7 +14,6 @@ from ..api import create_app
 @pytest.fixture(scope="module")
 def test_app():
     app = create_app()
-    app.config.from_object(config.TestConfig)
     with app.app_context():
         yield app
 
@@ -24,6 +23,7 @@ def test_database():
     mongo = MongoClient(config.TestConfig.MONGO_URI)
     # seed database with a few examples
     test_contact = {
+        "user_id": 123,
         "first_name": "John",
         "last_name": "Doe",
         "mobile_phone": "123-456-7890",

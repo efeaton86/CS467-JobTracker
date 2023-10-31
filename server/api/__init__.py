@@ -24,6 +24,8 @@ def create_app():
     if os.getenv('APPSETTING_RUNNING_IN_PRODUCTION'):
         # Production - read environment variables in Azure.
         app.config.from_object(ProductionConfig)
+    elif os.environ['FLASK_ENV'] == 'test':
+        app.config.from_object(TestConfig)
     else:
         # Development - read environment variables from .env
         app.config.from_object(DevelopmentConfig)

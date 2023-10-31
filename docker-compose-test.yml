@@ -7,10 +7,18 @@ services:
     environment:
       - FLASK_ENV=test
       - FLASK_DEBUG=1
+    volumes:
+      - ./server:/server
+    ports:
+      - 5001:5001
     depends_on:
       - api-mongodb
   api-mongodb:
-    image: mongo:6-jammy
+    environment:
+      - MONGO_INITDB_DATABASE=jobtrekker
+    build:
+      context: ./db
+      dockerfile: Dockerfile
     ports:
       - 27017:27017
     container_name: mongodb-test

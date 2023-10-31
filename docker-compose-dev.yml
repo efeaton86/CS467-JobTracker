@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: server/Dockerfile.dev
-    image: local/pokemon-app-api
+    image: local/jobtrekker-app-api
     volumes:
       - ./server:/api
     ports:
@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: client/Dockerfile.dev
-    image: local/pokemon-app-client
+    image: local/jobtrekker-app-client
     volumes:
       - ./client:/app
     ports:
