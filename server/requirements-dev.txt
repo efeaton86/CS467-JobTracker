@@ -22,3 +22,7 @@ pytz==2023.3.post1
 typing_extensions==4.8.0
 Werkzeug==2.3.7
 pytest==7.4.3
+google-auth-oauthlib
+google-auth
+pyjwt
+flask_cors

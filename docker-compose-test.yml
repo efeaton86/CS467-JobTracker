@@ -9,6 +9,8 @@ services:
       - FLASK_DEBUG=1
     depends_on:
       - api-mongodb
+    ports:
+      - '5000:5000'
   api-mongodb:
     build:
       context: .
