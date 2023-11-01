@@ -2,7 +2,7 @@
 exposes an api that allows CRUD operations for a user's contacts
 """
 
-from flask import request, make_response, current_app
+from flask import request, make_response
 from flask_restx import Namespace, Resource, fields
 from marshmallow.exceptions import ValidationError
 
@@ -27,15 +27,17 @@ contact_model = contact_api.model('Contact', {
 
 @contact_api.route('/')
 class ContactsResource(Resource):
-    # @contact_api.marshal_with(contact_model)
+    @contact_api.marshal_with(contact_model)
     def get(self):
         """return all of a user's contacts"""
         # TODO: refactor once auth logic is implemented
         authorization_header = request.headers.get('Authorization')
         user_jwt = authorization_header.split("Bearer ")[1]
         user_id = user_jwt
-        user_contacts = mongo.db['contacts'].find({"user_id": user_id})
-
+        user_contacts = []
+        print("mongo print out", dir(mongo))
+        for post in mongo.db.contacts.find({"user_id": user_id}):
+            user_contacts.append(post)
         return ContactSchema(many=True).dump(user_contacts), 200
 
     @contact_api.expect(contact_model, validate=True)
@@ -62,6 +64,8 @@ class ContactsResource(Resource):
 @contact_api.route('/<string:id>')
 class ContactResource(Resource):
     @contact_api.marshal_with(contact_model)
+    @contact_api.response(404, 'Contact not found.')
+    @contact_api.response(200, 'Success')
     def get(self, id):
         """get a user's contact by contact id."""
         # TODO: refactor once auth logic is implemented
@@ -72,7 +76,7 @@ class ContactResource(Resource):
         user_contact = mongo.db['contacts'].find_one({"user_id": user_id, "contact_id": id})
 
         if not user_contact:
-            return contact_api.abort(404, f'User with id {id} was not found.')
+            return contact_api.abort(404, f'Contact with id {id} was not found.')
         return user_contact, 200
 
     @contact_api.expect(contact_model, validate=True)
