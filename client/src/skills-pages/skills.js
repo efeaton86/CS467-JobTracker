@@ -1,11 +1,14 @@
 import React from 'react';
+import AddSkill from './add-skill';
+
+
 
 const Skills = () => {
     return (
         <div>
-            console.log('Skills component loaded');
 
             <h1>Skills Application Page</h1>
+            <AddSkill />
 
         </div>
     );

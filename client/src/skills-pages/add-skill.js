@@ -5,22 +5,20 @@ function AddSkill() {
     const [formData, setFormData] = useState({
         skill: '',
         proficiency: '',
-        companies: [] // Use an array to store selected companies
+        companies: '' // Use an array to store selected companies
     });
 
     const handleChange = (e) => {
-        if (e.target.name === 'companies') {
-            const selectedCompanies = Array.from(e.target.selectedOptions, option => option.value);
-            setFormData({ ...formData, [e.target.name]: selectedCompanies });
-        } else {
-            setFormData({ ...formData, [e.target.name]: e.target.value });
-        }
+            setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }));
     };
+    
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/submit_skill', {
+            console.log(JSON.stringify(formData))
+            const response = await fetch('http://localhost:5001/api/skills', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,7 +53,7 @@ function AddSkill() {
                     name="proficiency"
                     value={formData.proficiency}
                     onChange={handleChange}
-                    placeholder="Beginner"
+                    placeholder="Select One"
                     required
                 >
                     <option value="Beginner">Beginner</option>
@@ -70,8 +68,8 @@ function AddSkill() {
                     name="companies"
                     value={formData.companies}
                     onChange={handleChange}
-                    placeholder="Select Companies"
-                    multiple // Enable multiple selections of companies
+                    placeholder="Select Company"
+                    //multiple // Enable multiple selections of companies
                     required
                 // Change later to companies from Job Forms
                 >
