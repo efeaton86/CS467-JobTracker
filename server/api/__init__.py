@@ -36,4 +36,7 @@ def create_app():
     from api.contacts.contacts import contact_api
     api.add_namespace(contact_api, path='/api/contacts')
 
+    from api.skills.skills import skills_api
+    api.add_namespace(skills_api, path='/api/skills')
+
     return app

@@ -11,7 +11,11 @@ load_dotenv()
 class BaseConfig:
     TESTING = False
 
-
+class TestConfig(BaseConfig):
+    TESTING = True
+    SECRET_KEY = "secret-key-123"
+    MONGO_URI = "mongodb://localhost:27017"
+    
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SECRET_KEY = os.getenv('SECRET_KEY')
