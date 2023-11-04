@@ -34,11 +34,11 @@ class ContactsResource(Resource):
     def get(self):
         """return all of a user's contacts"""
         # TODO: refactor once auth logic is implemented
-        authorization_header = request.headers.get('Authorization')
-        user_jwt = authorization_header.split("Bearer ")[1]
-        user_id = user_jwt
+        # authorization_header = request.headers.get('Authorization')
+        # user_jwt = authorization_header.split("Bearer ")[1]
+        # user_id = user_jwt
         user_contacts = []
-        for contact in mongo.db.contacts.find({"user_id": user_id}):
+        for contact in mongo.db.contacts.find({"user_id": "123"}): # user_id
             user_contacts.append(contact)
         return ContactSchema().dump(user_contacts, many=True), 200
 
