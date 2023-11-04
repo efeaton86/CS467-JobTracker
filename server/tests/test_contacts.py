@@ -1,20 +1,18 @@
 
 import requests
-
-from api.contacts.models import ContactSchema
-
-import os
 import unittest
-from flask import Flask
+
 from flask_pymongo import PyMongo
+
 from api import create_app
+from api.contacts.models import ContactSchema
 
 
 class TestContactAPI(unittest.TestCase):
     def setUp(self):
         app = create_app()
 
-        # Use a different test database for your tests
+        # Test DB
         app.config['MONGO_URI'] = 'mongodb://api-mongodb:27017/jobtrekker'
 
         # Initialize PyMongo extension
@@ -32,21 +30,41 @@ class TestContactAPI(unittest.TestCase):
             "linkedin": "johndoe",
             "employer": "Example Corp"
         }
-
+        test_contact_1 = {
+            "user_id": "123",
+            "first_name": "Betty",
+            "last_name": "Doe",
+            "mobile_phone": "123-666-7890",
+            "work_phone": "987-789-3210",
+            "email": "betty.doe@example.com",
+            "linkedin": "bettydoe",
+            "employer": "Example Corp"
+        }
+        test_contact_2 = {
+            "user_id": "456",
+            "first_name": "Betty",
+            "last_name": "Doe",
+            "mobile_phone": "123-666-7890",
+            "work_phone": "987-789-3210",
+            "email": "betty.doe@example.com",
+            "linkedin": "bettydoe",
+            "employer": "Example Corp"
+        }
         test_user = {
             "first_name": "Test",
             "last_name": "User",
             "email": "test.user@gmail.com",
         }
 
-        # my_jobtrekker_db = self.mongo.db['jobtrekker']
-        my_jobtrekker_db = self.mongo.db  # ['jobtrekker']
-        my_jobtrekker_db.contacts.insert_one(test_contact)
+        test_contacts = [test_contact, test_contact_1, test_contact_2]
+        my_jobtrekker_db = self.mongo.db
+        for c in test_contacts:
+            my_jobtrekker_db.contacts.insert_one(c)
         my_jobtrekker_db.users.insert_one(test_user)
 
 
     def tearDown(self):
-        # Clean up any test data or perform teardown here
+        # clean up
         pass
 
     def test_get_all_user_contacts_endpoint(self):
@@ -54,10 +72,10 @@ class TestContactAPI(unittest.TestCase):
             'Authorization': f'Bearer 123',
             'Content-Type': 'application/json',
         }
-        response = self.app.get('http://localhost:5001/api/contacts/', headers=headers)
-        print(response.data)
-        self.assertEqual(response.status_code, 200)
-        # Add more assertions based on your test case
+        req_resp = requests.get(url='http://localhost:5001/api/contacts/', headers=headers)
+        self.assertEqual(req_resp.status_code, 200)
+        self.assertNotEqual(len(req_resp.json()), 0)
+
 
     def test_get_single_contact(self):
         pass

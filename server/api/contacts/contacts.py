@@ -5,6 +5,9 @@ exposes an api that allows CRUD operations for a user's contacts
 from flask import request, make_response
 from flask_restx import Namespace, Resource, fields
 from marshmallow.exceptions import ValidationError
+from bson import ObjectId
+from bson.errors import InvalidId
+
 
 from .models import ContactSchema
 from api import mongo
@@ -13,8 +16,8 @@ contact_api = Namespace('contacts', description="Operations related to a user's 
 
 # specifies the expected structure of data in the contact_api
 contact_model = contact_api.model('Contact', {
-    '_id': fields.String(readOnly=True, description='Object ID'),
-    'user_id': fields.Integer(description='User ID'),
+    '_id': fields.String(dump_only=True, description='Object ID'),
+    'user_id': fields.String(description='User ID'),
     'first_name': fields.String(required=True, description='First Name'),
     'last_name': fields.String(required=True, description='Last Name'),
     'mobile_phone': fields.String(description='Mobile Phone'),
@@ -35,10 +38,9 @@ class ContactsResource(Resource):
         user_jwt = authorization_header.split("Bearer ")[1]
         user_id = user_jwt
         user_contacts = []
-        print("mongo print out", dir(mongo))
-        for post in mongo.db.contacts.find({"user_id": user_id}):
-            user_contacts.append(post)
-        return ContactSchema(many=True).dump(user_contacts), 200
+        for contact in mongo.db.contacts.find({"user_id": user_id}):
+            user_contacts.append(contact)
+        return ContactSchema().dump(user_contacts, many=True), 200
 
     @contact_api.expect(contact_model, validate=True)
     def post(self):
@@ -46,6 +48,7 @@ class ContactsResource(Resource):
         # TODO: refactor once auth logic is implemented
         authorization_header = request.headers.get('Authorization')
         user_jwt = authorization_header.split("Bearer ")[1]
+        # TODO: if user not authenitcated abort
         user_id = user_jwt  # get_user_id_from_token(user_jwt)
 
         data = request.get_json()
@@ -73,13 +76,16 @@ class ContactResource(Resource):
         user_jwt = authorization_header.split("Bearer ")[1]
         user_id = user_jwt
 
-        user_contact = mongo.db['contacts'].find_one({"user_id": user_id, "contact_id": id})
+        try:
+            user_contact = mongo.db['contacts'].find_one({"_id": ObjectId(id)})
+        except InvalidId:
+            return contact_api.abort(422, f'The provided id, {id}, is not a valid ObjectId, '
+                                          f'it must be a 12-byte input or a 24-character hex string')
 
         if not user_contact:
             return contact_api.abort(404, f'Contact with id {id} was not found.')
         return user_contact, 200
 
-    @contact_api.expect(contact_model, validate=True)
     @contact_api.marshal_with(contact_model)
     def put(self, id):
         """update a user's contact by contact id"""
@@ -88,16 +94,18 @@ class ContactResource(Resource):
         user_jwt = authorization_header.split("Bearer ")[1]
         user_id = user_jwt
 
-        filter_by = {"user_id": user_id, "contact_id": id}
-        # TODO: get data to update
+        filter_by = {"_id": ObjectId(id)}
         data = request.get_json()
+        data.pop('_id')
         data_to_update = {"$set": data}
 
         update_result = mongo.db['contacts'].update_one(filter_by, data_to_update)
-        if update_result['matched_count'] == 0:
+        if update_result.matched_count == 0:
             contact_api.abort(404, f'Unable to find a contact with id {id} and update it.')
-
-        return mongo.db['contacts'].find_one({"user_id": user_id, "contact_id": id})
+        elif update_result.matched_count == 1 and update_result.modified_count == 0:
+            contact_api.abort(404, f'Contact with id {id} was found but unable to update it.')
+        else:
+            return mongo.db['contacts'].find_one({"_id": ObjectId(id)}), 200
 
 
     def delete(self, id):
@@ -107,12 +115,7 @@ class ContactResource(Resource):
         user_jwt = authorization_header.split("Bearer ")[1]
         user_id = user_jwt
 
-        filter_by = {"user_id": user_id, "contact_id": id}
-        # TODO: get data to update
-        data = request.get_json()
-        data_to_update = {"$set": data}
-
-        delete_result = mongo.db['contacts'].delete_one(filter_by, data_to_update)
-        if delete_result['matched_count'] == 0:
+        delete_result = mongo.db['contacts'].delete_one({"_id": ObjectId(id)})
+        if delete_result['deleted_count'] == 0:
             contact_api.abort(404, f'Unable to find a contact with id {id} and delete it.')
-        return make_response("", 204)
+        return make_response("", 200)
