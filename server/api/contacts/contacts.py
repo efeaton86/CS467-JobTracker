@@ -90,13 +90,12 @@ class ContactResource(Resource):
     def put(self, id):
         """update a user's contact by contact id"""
         # TODO: refactor once auth logic is implemented
-        authorization_header = request.headers.get('Authorization')
-        user_jwt = authorization_header.split("Bearer ")[1]
-        user_id = user_jwt
+        # authorization_header = request.headers.get('Authorization')
+        # user_jwt = authorization_header.split("Bearer ")[1]
+        # user_id = user_jwt
 
         filter_by = {"_id": ObjectId(id)}
         data = request.get_json()
-        data.pop('_id')
         data_to_update = {"$set": data}
 
         update_result = mongo.db['contacts'].update_one(filter_by, data_to_update)
