@@ -26,7 +26,6 @@ function ContactTable({contacts, onUpdateContact}) {
       },
       body: JSON.stringify(editedData),
     });
-
     if (response.ok) {
       onUpdateContact(rowId, editedData);
       setEditRowId(null);
@@ -38,7 +37,6 @@ function ContactTable({contacts, onUpdateContact}) {
     console.error('Error updating contact:', error);
   }
 };
-
 
   return (
     <div>
@@ -66,12 +64,54 @@ function ContactTable({contacts, onUpdateContact}) {
                     />
                     : contact.first_name}
               </td>
-              <td>{contact.last_name}</td>
-              <td>{contact.mobile_phone}</td>
-              <td>{contact.work_phone}</td>
-              <td>{contact.email}</td>
-              <td>{contact.linkedin}</td>
-              <td>{contact.employer}</td>
+              <td>
+                {editRowId === contact._id ?
+                    <input type="text" value={editedData.last_name}
+                           onChange={
+                      (e) => setEditedData({ ...editedData, last_name: e.target.value })}
+                    />
+                    : contact.last_name}
+              </td>
+              <td>
+                {editRowId === contact._id ?
+                    <input type="text" value={editedData.mobile_phone}
+                           onChange={
+                      (e) => setEditedData({ ...editedData, mobile_phone: e.target.value })}
+                    />
+                    : contact.mobile_phone}
+              </td>
+              <td>
+                {editRowId === contact._id ?
+                    <input type="text" value={editedData.work_phone}
+                           onChange={
+                      (e) => setEditedData({ ...editedData, work_phone: e.target.value })}
+                    />
+                    : contact.work_phone}
+              </td>
+              <td>
+                {editRowId === contact._id ?
+                    <input type="text" value={editedData.email}
+                           onChange={
+                      (e) => setEditedData({ ...editedData, email: e.target.value })}
+                    />
+                    : contact.email}
+              </td>
+              <td>
+                {editRowId === contact._id ?
+                    <input type="text" value={editedData.linkedin}
+                           onChange={
+                      (e) => setEditedData({ ...editedData, linkedin: e.target.value })}
+                    />
+                    : contact.linkedin}
+              </td>
+              <td>
+                {editRowId === contact._id ?
+                    <input type="text" value={editedData.employer}
+                           onChange={
+                      (e) => setEditedData({ ...editedData, employer: e.target.value })}
+                    />
+                    : contact.employer}
+              </td>
               <td>
                 {editRowId === contact._id ?
                 (

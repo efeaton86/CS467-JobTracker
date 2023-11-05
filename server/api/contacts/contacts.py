@@ -46,10 +46,11 @@ class ContactsResource(Resource):
     def post(self):
         """create a contact"""
         # TODO: refactor once auth logic is implemented
-        authorization_header = request.headers.get('Authorization')
-        user_jwt = authorization_header.split("Bearer ")[1]
+        #authorization_header = request.headers.get('Authorization')
+        #user_jwt = authorization_header.split("Bearer ")[1]
         # TODO: if user not authenitcated abort
-        user_id = user_jwt  # get_user_id_from_token(user_jwt)
+        #user_id = user_jwt  # get_user_id_from_token(user_jwt)
+        user_id = '123'
 
         data = request.get_json()
         try:

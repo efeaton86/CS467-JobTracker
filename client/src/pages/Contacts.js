@@ -26,26 +26,29 @@ function Contacts() {
         setContacts(updatedContacts);
     };
 
-    const addContact = (newContactData) => {
-        fetch('/api/contacts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newContactData),
-        })
-            .then((response) => response.json())
-            .then((createdContact) => {
-                setContacts([...contacts, createdContact]);
+    const addContact = async (newContactData) => {
+        try {
+            const response = await fetch('/api/contacts/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newContactData),
             })
-            .catch((error) => console.error('Error adding contact:', error));
+            if (response.ok) {
+                const createdContact = await response.json();
+                setContacts([...contacts, createdContact]);
+            } else {
+                console.error('Error updating contact.');
+            }
+        } catch (error) {
+            console.error('Error updating contact:', error);
+        }
     };
 
     return (
         <div>
-            <ContactTable
-                contacts={contacts}
-                onUpdateContact={updateContact}/>
+            <ContactTable contacts={contacts} onUpdateContact={updateContact}/>
             <ContactForm onAddContact={addContact}/>
         </div>
     );
