@@ -15,7 +15,7 @@ skill_api = Namespace('skills', description="Operations related to a user's skil
 
 # specifies the expected structure of data in the skill_api
 skill_model = skill_api.model('Skill', {
-    'user_id': fields.String(readOnly=True, description='User ID'),
+    'skill_id': fields.String(readOnly=True, description='User ID'),
     'skill': fields.String(required=True, description='Skill'),
     'proficiency': fields.String(required=True, description='Proficiency'),
     'companies': fields.String(description='Companies')
@@ -31,9 +31,9 @@ class SkillsResource(Resource):
         authorization_header = request.headers.get('Authorization')
         user_jwt = authorization_header.split("Bearer ")[1]
         user_id = user_jwt
-        mongo.db['skills'].find({"user_id": user_id})
+        skills = mongo.db['skills'].find({"user_id": user_id})
 
-        return {"hello": time.time()}
+        return skills
 
     @skill_api.expect(skill_model, validate=True)
     def post(self):
@@ -109,4 +109,3 @@ class SkillResource(Resource):
         if delete_result['matched_count'] == 0:
             skill_api.abort(404, f'Unable to find a skill with id {id} and delete it.')
         return make_response("", 204)
-

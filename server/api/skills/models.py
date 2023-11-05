@@ -8,4 +8,4 @@ class SkillSchema(Schema):
     id = fields.String(dump_only=True)
     skill = fields.String(required=True)
     proficiency = fields.String(required=True)
-    companies = fields.String(required=True)
+    companies = fields.String(required=False)

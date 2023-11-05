@@ -18,7 +18,7 @@ function AddSkill() {
         e.preventDefault();
         try {
             console.log(JSON.stringify(formData))
-            const response = await fetch('http://localhost:5001/api/skills', {
+            const response = await fetch('/api/skills', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
