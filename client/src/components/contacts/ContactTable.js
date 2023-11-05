@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import './Contacts.css'
 function ContactTable({contacts, onUpdateContact}) {
 
   const [editRowId, setEditRowId] = useState(null);

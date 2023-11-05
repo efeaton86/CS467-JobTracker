@@ -5,14 +5,12 @@ import ContactForm from "../components/contacts/ContactForm";
 function Contacts() {
 
     const [contacts, setContacts] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetch('/api/contacts/')
             .then((response) => response.json())
-            .then((data) => {
-                    setContacts(data)
-                }
-            )
+            .then((data) => {setContacts(data)})
             .catch((error) => console.error('Error fetching contacts:', error));
     }, []);
 
@@ -46,10 +44,26 @@ function Contacts() {
         }
     };
 
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div>
             <ContactTable contacts={contacts} onUpdateContact={updateContact}/>
-            <ContactForm onAddContact={addContact}/>
+            <button onClick={openModal}>Add Contact</button>
+            {isModalOpen && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <ContactForm onAddContact={addContact}/>
+                        <button onClick={closeModal}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
