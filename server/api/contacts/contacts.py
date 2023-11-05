@@ -73,9 +73,9 @@ class ContactResource(Resource):
     def get(self, id):
         """get a user's contact by contact id."""
         # TODO: refactor once auth logic is implemented
-        authorization_header = request.headers.get('Authorization')
-        user_jwt = authorization_header.split("Bearer ")[1]
-        user_id = user_jwt
+        # authorization_header = request.headers.get('Authorization')
+        # user_jwt = authorization_header.split("Bearer ")[1]
+        # user_id = user_jwt
 
         try:
             user_contact = mongo.db['contacts'].find_one({"_id": ObjectId(id)})
@@ -111,9 +111,9 @@ class ContactResource(Resource):
     def delete(self, id):
         """delete a contact"""
         # TODO: refactor once auth logic is implemented
-        authorization_header = request.headers.get('Authorization')
-        user_jwt = authorization_header.split("Bearer ")[1]
-        user_id = user_jwt
+        # authorization_header = request.headers.get('Authorization')
+        # user_jwt = authorization_header.split("Bearer ")[1]
+        # user_id = user_jwt
 
         delete_result = mongo.db['contacts'].delete_one({"_id": ObjectId(id)})
         if delete_result['deleted_count'] == 0:
