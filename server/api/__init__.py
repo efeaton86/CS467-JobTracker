@@ -36,7 +36,7 @@ def create_app():
     from api.contacts.contacts import contact_api
     api.add_namespace(contact_api, path='/api/contacts')
 
-    from api.job_applications.job_applications import job_application_api
-    api.add_namespace(job_application_api, path='/api/job_applications')
+    from api.applications.applications import application_api
+    api.add_namespace(application_api, path='/api/applications')
 
     return app
