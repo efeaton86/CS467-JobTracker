@@ -44,8 +44,9 @@ class ProductionConfig(BaseConfig):
     MONGODB_CLUSTER_NAME = os.getenv('APPSETTING_MONGODB_CLUSTER_NAME')
     MONGODB_PORT = os.getenv('APPSETTING_MONGODB_PORT')
     MONGODB_PASSWORD = os.getenv('APPSETTING_MONGODB_PASSWORD')
+    MONGODB_DBNAME = os.getenv('APPSETTINGS_MONGODB_NAME')
 
     # Configure database connection for Azure Cosmos MongoDB.
     MONGO_URI = \
-        (f'mongodb://{MONGODB_CLUSTER_NAME}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/?ssl=true&replicaSet'
+        (f'mongodb://{MONGODB_CLUSTER_NAME}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/{MONGODB_DBNAME}?ssl=true&replicaSet'
          f'=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@jobtrekker-db@')
