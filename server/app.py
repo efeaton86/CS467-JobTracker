@@ -27,12 +27,12 @@ app.app_context().push()
 
 # bypass http
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-app.secret_key = os.getenv("SECRET_KEY")
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+app.secret_key = "secret-key-123" # os.getenv("SECRET_KEY")
+GOOGLE_CLIENT_ID = "284831974305-tonhm3oviop2b1b8sbt02co55uohev0j.apps.googleusercontent.com" # os.getenv("GOOGLE_CLIENT_ID")
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client-secret.json")
-algorithm = os.getenv("ALGORITHM")
-BACKEND_URL=os.getenv("BACKEND_URL")
-FRONTEND_URL=os.getenv("FRONTEND_URL")
+algorithm = None
+BACKEND_URL = "http://localhost:5000" # os.getenv("BACKEND_URL")
+FRONTEND_URL = "http://localhost:3000" # os.getenv("FRONTEND_URL")
 
 #database connection
 connect_db()

@@ -20,11 +20,11 @@ class TestConfig(BaseConfig):
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = "secret-key-123" # os.getenv('SECRET_KEY')
 
-    DBUSER = os.getenv('MONGO_USERNAME')
-    DBPASS = os.getenv('MONGO_PASSWORD')
-    DBNAME = os.getenv('MONGO_DBNAME')
+    DBUSER = "KAgyeman" # os.getenv('MONGO_USERNAME')
+    DBPASS = "CD5GJORJcSsVyQsn" # os.getenv('MONGO_PASSWORD')
+    DBNAME = "jobtrekker" # os.getenv('MONGO_DBNAME')
 
     # MongoDB connection string for local development
     MONGO_URI = f'mongodb+srv://{DBUSER}:{DBPASS}@cluster0.uwxwhy5.mongodb.net/{DBNAME}?retryWrites=true&w=majority'
