@@ -24,6 +24,20 @@ function Contacts() {
         setContacts(updatedContacts);
     };
 
+    const deleteContact = (rowId) => {
+        fetch(`/api/contacts/${rowId}`, {
+            method: 'DELETE',
+        })
+            .then((response) => {
+                if (response.ok) {
+                    setContacts(contacts.filter((contact) => contact._id !== rowId));;
+                } else {
+                    console.error('Error deleting contact');
+                }
+            })
+            .catch((error) => console.error('Error deleting contact:', error));
+    }
+
     const addContact = async (newContactData) => {
         try {
             const response = await fetch('/api/contacts/', {
@@ -54,12 +68,12 @@ function Contacts() {
 
     return (
         <div>
-            <ContactTable contacts={contacts} onUpdateContact={updateContact}/>
+            <ContactTable contacts={contacts} onUpdateContact={updateContact} onDeleteContact={deleteContact} />
             <button onClick={openModal}>Add Contact</button>
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
-                        <ContactForm onAddContact={addContact}/>
+                        <ContactForm onAddContact={addContact} />
                         <button onClick={closeModal}>Close</button>
                     </div>
                 </div>

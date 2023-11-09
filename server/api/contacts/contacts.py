@@ -116,6 +116,6 @@ class ContactResource(Resource):
         # user_id = user_jwt
 
         delete_result = mongo.db['contacts'].delete_one({"_id": ObjectId(id)})
-        if delete_result['deleted_count'] == 0:
+        if delete_result.deleted_count == 0:
             contact_api.abort(404, f'Unable to find a contact with id {id} and delete it.')
         return make_response("", 200)

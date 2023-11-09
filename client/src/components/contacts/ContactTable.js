@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import './Contacts.css'
-function ContactTable({contacts, onUpdateContact}) {
+function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
   const [editRowId, setEditRowId] = useState(null);
   const [editedData, setEditedData] = useState({});
@@ -14,8 +14,8 @@ function ContactTable({contacts, onUpdateContact}) {
     setEditRowId(null);
   };
 
-  const handleDeleteClick = () => {
-    console.log('deleting resource')
+  const handleDeleteClick = (rowId) => {
+    onDeleteContact(rowId)
   }
 
  const handleUpdateClick = async (rowId) => {
@@ -120,7 +120,7 @@ function ContactTable({contacts, onUpdateContact}) {
                 ) : (
                   <button onClick={() => handleEditClick(contact._id)}> Edit </button>
                 )}
-                <button onClick={handleDeleteClick}>Delete</button>
+                <button onClick={() => handleDeleteClick(contact._id)}>Delete</button>
                 {editRowId === contact._id && (
                   <button onClick={handleCancelClick}>Cancel</button>
                 )}
