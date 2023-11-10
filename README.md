@@ -23,6 +23,25 @@ List any prerequisites that need to be installed or set up before running the pr
 - Prerequisite 2
 - Prerequisite 3
 
+## Environment Variables
+### 1. `DATABASE_URL`
+
+- **Purpose/Description:** 
+- **Example Value:** `postgres://username:password@localhost:5432/mydatabase`
+- **Default Value:** None
+- **Where to Set:** Set this variable in `.env` file 
+
+### 2. `MONGO_CLUSTER_NAME`
+### 3. `MONGO_PASSWORD`
+### 4. `MONGO_USERNAME`
+### 5. `MONGO_DBNAME`
+### 6. `MONGO_URI`
+### 7. ``
+### 8. ``
+
+## APP Configuration Settings
+
+
 ## Local Development Outside of Docker Containers
 - To run the app for local development with hot reloads:
 1. Change to server directory
