@@ -41,7 +41,6 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
   return (
     <>
-      <h1>Contact List</h1>
       <table className="table">
         <thead>
           <tr>
