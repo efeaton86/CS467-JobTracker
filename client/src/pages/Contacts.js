@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ContactTable from '../components/contacts/ContactTable';
 import ContactForm from "../components/contacts/ContactForm";
+import 'bulma/css/bulma.min.css';
 
 function Contacts() {
 
@@ -50,6 +51,7 @@ function Contacts() {
             if (response.ok) {
                 const createdContact = await response.json();
                 setContacts([...contacts, createdContact]);
+                closeModal()
             } else {
                 console.error('Error updating contact.');
             }
@@ -69,12 +71,12 @@ function Contacts() {
     return (
         <div>
             <ContactTable contacts={contacts} onUpdateContact={updateContact} onDeleteContact={deleteContact} />
-            <button onClick={openModal}>Add Contact</button>
+            <button className="button is-small" onClick={openModal}>Add Contact</button>
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
                         <ContactForm onAddContact={addContact} />
-                        <button onClick={closeModal}>Close</button>
+                        <button className="button is-small" onClick={closeModal}>Close</button>
                     </div>
                 </div>
             )}

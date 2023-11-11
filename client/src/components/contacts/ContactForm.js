@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import 'bulma/css/bulma.min.css';
 
 function ContactForm({onAddContact}) {
 
@@ -27,70 +28,93 @@ function ContactForm({onAddContact}) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div>
-                <input
-                    type="text"
-                    name="first_name"
-                    value={formData.first_name}
-                    onChange={handleChange}
-                    placeholder="First Name"
-                />
+            <div className="field">
+                <label className="label">First Name: </label>
+                <div className="control">
+                    <input
+                        className="input"
+                        type="text"
+                        name="first_name"
+                        value={formData.first_name}
+                        onChange={handleChange}
+                    />
+                </div>
             </div>
-            <div>
-                <input
-                    type="text"
-                    name="last_name"
-                    value={formData.last_name}
-                    onChange={handleChange}
-                    placeholder="Last Name"
-                />
+
+            <div className="field">
+                <label className="label">Last Name: </label>
+                <div className="control">
+                    <input
+                        className="input"
+                        type="text"
+                        name="last_name"
+                        value={formData.last_name}
+                        onChange={handleChange}
+                    />
+                </div>
+
             </div>
-            <div>
-                <input
-                    type="text"
-                    name="mobile_phone"
-                    value={formData.mobile_phone}
-                    onChange={handleChange}
-                    placeholder="Mobile Phone"
-                />
+            <div className="field">
+               <label className="label">Mobile Phone: </label>
+                <div className="control">
+                    <input
+                        className="input"
+                        type="text"
+                        name="mobile_phone"
+                        value={formData.mobile_phone}
+                        onChange={handleChange}
+                    />
+                </div>
             </div>
-            <div>
-                <input
-                    type="text"
-                    name="work_phone"
-                    value={formData.work_phone}
-                    onChange={handleChange}
-                    placeholder="Work Phone"
-                />
+            <div className="field">
+               <label className="label">Work Phone: </label>
+                <div className="control">
+                    <input
+                        className="input"
+                        type="text"
+                        name="work_phone"
+                        value={formData.work_phone}
+                        onChange={handleChange}
+                    />
+                </div>
             </div>
-            <div>
-                <input
-                    type="text"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Email"
-                />
+            <div className="field">
+               <label className="label">Email: </label>
+                <div className="control">
+                    <input
+                        className="input"
+                        type="text"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
+                </div>
             </div>
-            <div>
-                <input
-                    type="text"
-                    name="linkedin"
-                    value={formData.linkedin}
-                    onChange={handleChange}
-                    placeholder="LinkedIn"
-                />
+            <div className="field">
+               <label className="label">Linkedin: </label>
+                <div className="control">
+                    <input
+                        className="input"
+                        type="text"
+                        name="linkedin"
+                        value={formData.linkedin}
+                        onChange={handleChange}
+                    />
+                </div>
             </div>
-            <div>
-                <input
-                    type="text"
-                    name="employer"
-                    value={formData.employer}
-                    onChange={handleChange}
-                    placeholder="Employer"
-                />
+            <div className="field">
+               <label className="label">Employer:  </label>
+                <div className="control">
+                    <input
+                        className="input"
+                        type="text"
+                        name="employer"
+                        value={formData.employer}
+                        onChange={handleChange}
+                    />
+                </div>
             </div>
-            <button type="submit">Add Contact</button>
+            <button className="button is-medium" type="submit">Add Contact</button>
         </form>
     );
 }
