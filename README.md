@@ -24,7 +24,7 @@ List any prerequisites that need to be installed or set up before running the pr
 - Prerequisite 3
 
 ## Environment Variables
-### 1. `DATABASE_URL`
+### 1. `MONGO_URI`
 
 - **Purpose/Description:** 
 - **Example Value:** `postgres://username:password@localhost:5432/mydatabase`
@@ -32,31 +32,65 @@ List any prerequisites that need to be installed or set up before running the pr
 - **Where to Set:** Set this variable in `.env` file 
 
 ### 2. `MONGO_CLUSTER_NAME`
+- **Purpose/Description:** 
+- **Example Value:** `postgres://username:password@localhost:5432/mydatabase`
+- **Default Value:** None
+- **Where to Set:** Set this variable in `.env` file 
 ### 3. `MONGO_PASSWORD`
+- **Purpose/Description:** 
+- **Example Value:** `postgres://username:password@localhost:5432/mydatabase`
+- **Default Value:** None
+- **Where to Set:** Set this variable in `.env` file 
 ### 4. `MONGO_USERNAME`
+- **Purpose/Description:** 
+- **Example Value:** `postgres://username:password@localhost:5432/mydatabase`
+- **Default Value:** None
+- **Where to Set:** Set this variable in `.env` file 
 ### 5. `MONGO_DBNAME`
+- **Purpose/Description:** 
+- **Example Value:** `postgres://username:password@localhost:5432/mydatabase`
+- **Default Value:** None
+- **Where to Set:** Set this variable in `.env` file 
 ### 6. `MONGO_URI`
-### 7. ``
-### 8. ``
+- **Purpose/Description:** 
+- **Example Value:** `postgres://username:password@localhost:5432/mydatabase`
+- **Default Value:** None
+- **Where to Set:** Set this variable in `.env` file 
+### 7. `SECRET_KEY`
+- **Purpose/Description:** 
+- **Example Value:** `postgres://username:password@localhost:5432/mydatabase`
+- **Default Value:** None
+- **Where to Set:** Set this variable in `.env` file 
 
-## APP Configuration Settings
 
 
 ## Local Development Outside of Docker Containers
-- To run the app for local development with hot reloads:
+- To run the app for local development with hot reloads
 1. Change to server directory
 ```bash
 cd server
 ```
-2. Spin up the flask server
+2. Create virtual env 
+```bash
+python -m venv venv
+```
+3. Install requirements
+```bash
+pip install -r requirements.txt
+```
+4. Spin up the flask server
 ```bash
 python3 -m app    
 ```
-3. Open second terminal and change to client directory
+5. Open second terminal and change to client directory
 ```bash
 cd client
 ```
-4. Spin up React front end
+6. Install packages
+```bash
+yarn install
+```
+7. Spin up React front end
 ```bash
 yarn start
 ```
