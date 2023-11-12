@@ -6,6 +6,7 @@ import time
 from flask import Blueprint, request, make_response
 from flask_restx import Namespace, Resource, fields
 from marshmallow.exceptions import ValidationError
+from bson import ObjectId
 
 from .models import ApplicationSchema
 from api import mongo
@@ -15,6 +16,7 @@ application_api = Namespace('applications', description="Operations related to a
 
 # specifies the expected structure of data in the job_api
 application_model = application_api.model('Application', {
+    '_id': fields.String(dump_only=True, description='Object ID'),
     'company': fields.String(description='The company name', required=True),
     'position': fields.String(description='The job position', required=True),
     'skills': fields.String(description='Skills required for the job'),
@@ -22,7 +24,7 @@ application_model = application_api.model('Application', {
         "Prospect", "Applied", "Phone Screen", "Online Assessment", "Interview: Phone", "Interview: Virtual",
         "Interview: In-office", "Negotiating Offer", "Rejection", "Closed", "Offer"
     ]),
-    'date_applied': fields.String(description='The date the job was applied'),
+    'date_applied': fields.Date(description='The date the job was applied'),
     # 'user_id': fields.String(description='The ID of the user associated with the job', required=True)
 })
 
@@ -31,20 +33,21 @@ application_model = application_api.model('Application', {
 class ApplicationsResource(Resource):
     @application_api.marshal_with(application_model)
     def get(self):
-        """Return all job applications - returning the time as a placeholder"""
+        """Return all job applications"""
         # TODO: refactor once auth logic is implemented
         # authorization_header = request.headers.get('Authorization')
         # user_jwt = authorization_header.split("Bearer ")[1]
         # user_id = user_jwt
+
+        # Sort applications by most recent entry
         # mongo.db['applications'].find({"user_id": user_id}).sort('date_applied', -1)
+        applications_collection = mongo.db.applications  # Replace 'applications' with your actual collection name
+        all_applications = list(applications_collection.find({}))  # Retrieve all documents from the collection
+        return all_applications, 200
+        
 
-        return {"hello": time.time()}
-
-
-    @application_api.expect(application_model, validate=False )
+    @application_api.expect(application_model, validate=False)
     def post(self):
-        # user_jwt = authorization_header.split("Bearer ")[1]
-        # user_id = user_jwt  # Ensure the token is extracted properly
         
         data = request.get_json()
         try:
@@ -52,8 +55,12 @@ class ApplicationsResource(Resource):
         except ValidationError as e:
             return {'message': 'Validation error', 'errors': e.messages}
        
-        result = mongo.db['applications'].insert_one(application_data)
-        return ApplicationSchema().dump(result), 201
+        insert_id = mongo.db['applications'].insert_one(application_data).inserted_id
+        user_application = mongo.db['applications'].find_one({"_id": insert_id})
+        
+        return ApplicationSchema().dump(user_application), 201
+
+        # TODO: refactor once auth logic is implemented
         # application['user_id'] = user_id
         # try:
         #     authorization_header = request.headers.get('Authorization')
@@ -73,16 +80,6 @@ class ApplicationsResource(Resource):
         #     return f"Validation Error: {str(e)}", 400  # Bad Request
         # except Exception as e:
         #     return f"Internal Server Error: {str(e)}", 500  # Internal Server Error
-
-        # TODO: refactor once auth logic is implemented
-        # authorization_header = request.headers.get('Authorization')
-        # user_jwt = authorization_header.split("Bearer ")[1]
-        # user_id = user_jwt  # get_user_id_from_token(user_jwt)
-
-        # application_data = request.get_json()
-        # application = ApplicationSchema().load(application_data)
-        # application['user_id'] = user_id
-        # result = mongo.db['applications'].insert_one(application)
         
 
 
@@ -97,34 +94,35 @@ class ApplicationsResource(Resource):
         # user_jwt = authorization_header.split("Bearer ")[1]
         # user_id = user_jwt
 
-        # TODO: Filter by Status
-        
-
         # TODO: get data to update
         application_data = request.get_json()
-        application_data_to_update = {"$set": application_data}
+        if "_id" in application_data:
+            del application_data["_id"]
 
-        update_result = mongo.db['applications'].update_one({'application_id': id}, application_data_to_update)
-        if update_result['matched_count'] == 0:
+        application_data_to_update = {"$set": application_data}
+        filter_by = {"_id": ObjectId(id)}
+        update_result = mongo.db['applications'].update_one(filter_by, application_data_to_update)
+        if update_result.matched_count == 0:
             application_api.abort(404, f'Job Application ID {id} not found. Cannot update.')
         else:
-            return jsonify({'message': 'Job application successfully updated'})
+            return ({'message': 'Job application successfully updated'})
 
-        return mongo.db['applications'].find_one({"user_id": user_id, "application_id": id})
+        return mongo.db['applications'].find_one({"_id": ObjectId(id)}), 200
 
 
     def delete(self, id):
-        """Delete a job applicatiokn"""
+        """Delete a job application"""
         # TODO: refactor once auth logic is implemented
         # authorization_header = request.headers.get('Authorization')
         # user_jwt = authorization_header.split("Bearer ")[1]
         # user_id = user_jwt
 
-        application_data = request.get_json()
-        application = ApplicationSchema().load(application_data)
-        delete_result = mongo.db['applications'].delete_one({'application_id': id}, {'$set': application})
-       
-        if delete_result['matched_count'] == 0:
-            application_api.abort(404, f'Job Application ID {id} not found. Cannot delete it.')
+        delete_result = mongo.db['applications'].delete_one({"_id": ObjectId(
+            id)})
+
+        # Check if the document was not found
+        if delete_result.deleted_count == 0:
+            application_api.abort(404, f'Job Application ID {id} not '
+                                       f'found. Cannot delete it.')
 
         return make_response("", 204)
