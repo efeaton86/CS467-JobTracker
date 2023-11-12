@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+/* Applications.css */
+
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif !important;
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+} 
+
+.spintarget {
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  height: 100px;
+}
+
+
+
+.Applications {
+  margin: auto;
+  width: 90%;
+}
+
+
+/* -------------------- Table ---------------------------*/
+
+.no-data {
+  font-size: 1.5rem;
+  font-weight: 200;
+  margin-left: 2rem;
+}
+
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-select {
+  margin-bottom: 1rem;
+}
+
+.word-wrap {
+  white-space: normal;
+}
+
+
+
+.action-col {
+  text-align: right;
+}
+
+.action-links {
+  display: inline-block;
+  padding-left: 10px;
+}
+
+
+.modal-btns {
+  margin-top: 1rem;
+  color: white !important;
+  float: right;
+}
+
+.update-modal {
+  padding-top: 8rem;
+}
+
+.cancel-btn {
+  height: 3.6rem;
+  border: none !important;
+  border-radius: 10px !important;
+  margin-right: .5rem;
+  font-size: 1.2rem !important;
+}
+
+.update-btn {
+  width: 120px !important;
+}
+
+.add-btn {
+  height: 3.6rem;
+  color: white !important;
+}
+
+.add-btn-container {
+  float: right;
+  text-align: right;
+}
+/*-------------------------------- LINKS --------------------------------*/
+a {
+
+  background-image: linear-gradient(
+    to right,
+    rgb(192, 78, 78) 50%,
+    rgb(192, 78, 78) 50%,
+    rgb(44, 105, 204) 50%
+  );
+  cursor: pointer;
+  background-size: 200% 100%;
+  background-position: -100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+a:before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 0;
+  height: 3px;
+}
+
+a:hover {
+  background-position: 0;
+ }
+
+ a:hover::before {
+  width: 100%;
+}
+
+Table {
+  text-align: left;
+}
+
+.jobTable>tbody>tr>td {
+  padding: 24px 16px;
+}
+
+.jobTable>thead>tr>th {
+  padding: 24px 16px;
+  font-weight: 600;
+}
+
+.preserve-nl {
+  white-space: pre-line;
+}
+
+/*----------------------- ADD JOB STYLES -----------------------*/
+
+.add-job {
+  width: 60%;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  padding-bottom: 15rem; 
+  padding-top: 5rem;
+
+}
+
+.title {
+  padding-bottom: 2rem;
+}
+
+.error {
+  color:crimson;
+  font-size: 14px;
+  text-align: left;
+  margin-left: 12px;
+  /* margin-top: -10px; */
+}
+
+.form-floating>label {
+  color: black !important;
+}
+
+.form-control:focus {
+  border-color: #54b3d6 !important;
+  color: black !important;
+  box-shadow: 0 0 0 0.25rem #54b3d63d !important;
+}
+
+
+/* -------------------- Back to Top button ---------------------- */
+
+.back-to-top {
+  width: 60px !important;
+  height: 60px !important;
+  display: flex;
+  position: fixed !important;
+  right: 3.5rem !important;
+  bottom:  3.5rem !important;
+  transition: 0.2s;
+  padding: 12px !important;
+}
+
+.back-to-top:hover {
+  background-color: var(--color-contrast-higher);
+}
