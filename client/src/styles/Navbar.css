@@ -1,0 +1,85 @@
+/* navbar.css */
+
+.navigation {
+  background-color: transparent !important;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.5rem 0rem;
+  background-color: #fff;
+  margin-bottom: 4rem;
+  margin-top: 4rem;
+}
+.logo-section {
+    text-align: center;
+}
+.logo {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.job-tracker-title {
+    display: inline-block;
+    font-size: 2rem;
+    font-weight:bold;
+    margin-left: .5rem;
+    vertical-align: middle;
+}
+
+.navigation-menu {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.navigation-menu a {
+    margin: 0 1rem;
+    display: inline-block;
+}
+
+.logout-btn {
+    height: 40px !important;
+    font-size: 16px !important;
+    margin-left: 2rem;
+}
+
+
+.navigation-menu ul {
+    display: flex;
+    padding: 0;
+}
+.navigation-menu li {
+    list-style-type: none;
+    margin: 0 1rem;
+}
+.navigation-menu li a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+}
+*/
+
+@media screen and (max-width: 768px) {
+
+    /* .navigation-menu ul {
+        display: inline-block;
+
+  }
+  .navigation-menu li {
+        text-align: center;
+        margin: 0;
+  }
+  .navigation-menu li a {
+      display: inline-block;
+        width: 100%;
+        padding: .5rem 0;
+  }
+  .navigation-menu li:hover {
+        background-color: #eee;
+  } */
+
+  
+}
