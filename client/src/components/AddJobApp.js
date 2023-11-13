@@ -59,7 +59,7 @@ function AddJobApp() {
 	 	if (Object.keys(formErrors).length === 0 && isSubmit) {
 			
 	 		addJob()
-	 		navigate("/");
+	 		navigate("/applications");
 	 	}
 	 }, [formErrors]);
 
@@ -181,8 +181,7 @@ function AddJobApp() {
 							/>
 					</FloatingLabel>
 				</Form.Group>
-				
-				
+
 			</Form>
 			<Stack direction="horizontal" className="modal-btns" gap={2}>
 				<Button variant="outline-secondary" className="cancel-btn" onClickCapture={() => navigate(-1)}>Cancel</Button>

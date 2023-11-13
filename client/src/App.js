@@ -5,6 +5,8 @@ import AddJob from "./components/AddJobApp";
 import Applications from "./pages/Applications";
 import logo from './logo.svg';
 import './styles/Applications.css';
+import './App.css';
+import Navbar from "./components/Navbar";
 
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -15,31 +17,19 @@ function App() {
     });
   }, []);
   return (
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //     <p>The current time is {currentTime}.</p>
-    //   </header>
-    // </div>
+    <>
+
+    <Navbar />
     <div className="App">
+
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Applications /> } />
-            <Route path="/add-job" element={<AddJob />} />
-          </Routes>
+           <Routes>
+             <Route path="/applications" element={<Applications /> } />
+             <Route path="/applications/add-job" element={<AddJob />} />
+           </Routes>
         </BrowserRouter>
     </div>
+    </>
   );
 }
 
