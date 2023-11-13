@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import 'bulma/css/bulma.min.css';
 import './Contacts.css'
 function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
@@ -40,9 +40,8 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 };
 
   return (
-    <div>
-      <h1>Contact List</h1>
-      <table>
+    <>
+      <table className="table">
         <thead>
           <tr>
             <th>First Name</th>
@@ -116,20 +115,20 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
               <td>
                 {editRowId === contact._id ?
                 (
-                  <button onClick={() => handleUpdateClick(contact._id, editedData)}> Update </button>
+                  <button className="button is-small" onClick={() => handleUpdateClick(contact._id, editedData)}> Update </button>
                 ) : (
-                  <button onClick={() => handleEditClick(contact._id)}> Edit </button>
+                  <button className="button is-small" onClick={() => handleEditClick(contact._id)}> Edit </button>
                 )}
-                <button onClick={() => handleDeleteClick(contact._id)}>Delete</button>
+                <button className="button is-small" onClick={() => handleDeleteClick(contact._id)}>Delete</button>
                 {editRowId === contact._id && (
-                  <button onClick={handleCancelClick}>Cancel</button>
+                  <button className="button is-small" onClick={handleCancelClick}>Cancel</button>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+      </>
   );
 }
 
