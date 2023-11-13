@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import {BrowserRouter as Router,Route, Link, Routes} from "react-router-dom";
+import logo from './logo.svg';
 import './App.css';
 import Contacts from "./pages/Contacts";
 import Applications from "./pages/Applications";

@@ -2,7 +2,6 @@
 Flask configuration settings
 """
 import os
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -29,6 +28,7 @@ class DevelopmentConfig(BaseConfig):
 
     # MongoDB connection string for local development
     MONGO_URI = f'mongodb+srv://{DBUSER}:{DBPASS}@cluster0.uwxwhy5.mongodb.net/{DBNAME}?retryWrites=true&w=majority'
+
 
 
 class ProductionConfig(BaseConfig):
