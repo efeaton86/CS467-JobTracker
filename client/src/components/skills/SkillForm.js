@@ -1,47 +1,38 @@
 import React, { useState } from 'react';
 
 
-function AddSkill() {
-    const [formData, setFormData] = useState({
-        skill: '',
+function SkillForm({onAddSkill, onCancel}) {
+
+    const initialFormData = {
+        skill_name: '',
         proficiency: '',
-        companies: '' // Use an array to store selected companies
-    });
+        companies: '' // TODO: Use an array to store selected companies
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
 
     const handleChange = (e) => {
-            setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
     
-    
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            console.log(JSON.stringify(formData))
-            const response = await fetch('/api/skills', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.error(error);
-        }
+        onAddSkill(formData);
+        setFormData(initialFormData);
     };
+
 
     return (
         <div className="add-skill">
-            <h1 className="title">Add Skill</h1>
+            <h2 className="title">Add Skill</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="skill">Skill:</label>
                 <input
                     type="text"
-                    id="skill"
-                    name="skill"
-                    value={formData.skill}
+                    id="skill_name"
+                    name="skill_name"
+                    value={formData.skill_name}
                     onChange={handleChange}
                     placeholder= "Enter a skill (e.g., JavaScript)"
                     required
@@ -53,9 +44,9 @@ function AddSkill() {
                     name="proficiency"
                     value={formData.proficiency}
                     onChange={handleChange}
-                    placeholder="Select One"
                     required
                 >
+                    <option value="" disabled>Select Proficiency</option>
                     <option value="Beginner">Beginner</option>
                     <option value="Intermediate">Intermediate</option>
                     <option value="Advanced">Advanced</option>
@@ -73,13 +64,18 @@ function AddSkill() {
                     required
                 // Change later to companies from Job Forms
                 >
+                    <option value="" disabled>Select Company</option>
                     <option value="Company A">Company A</option>
                     <option value="Company B">Company B</option>
                     <option value="Company C">Company C</option>
                     <option value="Company D">Company D</option>
                 </select><br /><br />
 
-                <input type="submit" value="Submit" />
+                <div className="button-container">
+                    <input type="submit" value="Submit" />
+                    <button type="button" onClick={onCancel}>Cancel</button>
+                </div>
+
             </form>
         </div>
     );
@@ -87,4 +83,4 @@ function AddSkill() {
 
 }
 
-export default AddSkill;
+export default SkillForm;

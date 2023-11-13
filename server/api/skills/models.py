@@ -5,7 +5,8 @@ from marshmallow import Schema, fields
 
 
 class SkillSchema(Schema):
-    id = fields.String(dump_only=True)
-    skill = fields.String(required=True)
+    _id = fields.String(attribute="_id")
+    user_id = fields.String()
+    skill_name = fields.String(required=True)
     proficiency = fields.String(required=True)
-    companies = fields.String(required=False)
+    companies = fields.String()
