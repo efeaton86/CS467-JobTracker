@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from "react";
-import {BrowserRouter as Router,Route, Link, Routes} from "react-router-dom";
-import logo from './logo.svg';
-import './App.css';
+
+// Configure routing
+import { BrowserRouter, Router, Routes, Route, Link, Navigate } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import AddJob from "./components/AddJobApp";
 import Contacts from "./pages/Contacts";
 import Applications from "./pages/Applications";
 import Skills from "./pages/Skills";
-import Navigation from "./components/navbar/Navigation";
+
+import logo from './logo.svg';
+import './styles/Applications.css';
+import './App.css';
 
 function App() {
 
   return (
-      <Router>
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Applications />} />
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/skills" element={<Skills />} />
-        </Routes>
-      </Router>
+    <>
+      <Navbar />
+      <div className="App">
+          <BrowserRouter>
+             <Routes>
+               <Route path="/applications" element={<Applications /> } />
+               <Route path="/applications/add-job" element={<AddJob />} />
+               <Route path="/contacts" element={<Contacts />} />
+               <Route path="/skills" element={<Skills />} />
+             </Routes>
+          </BrowserRouter>
+      </div>
+    </>
   );
 }
 
