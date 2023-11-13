@@ -2,13 +2,10 @@
 
 /* Applications.css */
 
-
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif !important;
-  -webkit-font-smoothing: antialiased; 
-  -moz-osx-font-smoothing: grayscale;
-} 
+.Applications {
+  margin-left: 15%; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
 
 .spintarget {
   left: 50%;
@@ -18,13 +15,9 @@ body {
   height: 100px;
 }
 
-
-
 .Applications {
-  margin: auto;
-  width: 90%;
+    padding: 40px;
 }
-
 
 /* -------------------- Table ---------------------------*/
 
@@ -46,8 +39,6 @@ body {
   white-space: normal;
 }
 
-
-
 .action-col {
   text-align: right;
 }
@@ -57,12 +48,19 @@ body {
   padding-left: 10px;
 }
 
+.jobAppContainer {
+    background-color: #FFFFFF;
+    border-radius: 10px; /* Border-radius for the table */
+    overflow: hidden; /* Ensure the border-radius is applied properly */
+    padding: 36px;
+}
 
 .modal-btns {
   margin-top: 1rem;
   color: white !important;
   float: right;
 }
+
 
 .update-modal {
   padding-top: 8rem;
@@ -83,6 +81,12 @@ body {
 .add-btn {
   height: 3.6rem;
   color: white !important;
+}
+
+.btn-add {
+    float: right;
+    border-radius: 24px !important;
+    box-shadow: 0 5px 12px 0 #0F53D7 !important;
 }
 
 .add-btn-container {
@@ -129,11 +133,11 @@ Table {
 }
 
 .jobTable>tbody>tr>td {
-  padding: 24px 16px;
+  padding: 24px 0px;
 }
 
 .jobTable>thead>tr>th {
-  padding: 24px 16px;
+  padding: 24px 0px;
   font-weight: 600;
 }
 
@@ -148,9 +152,13 @@ Table {
   max-width: 600px;
   margin: auto;
   text-align: center;
-  padding-bottom: 15rem; 
+  padding-bottom: 10rem;
   padding-top: 5rem;
-
+  padding-right: 50px;
+  padding-left: 50px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  margin-top: 80px;
 }
 
 .title {
