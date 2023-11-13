@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ContactTable from '../components/contacts/ContactTable';
 import ContactForm from "../components/contacts/ContactForm";
-import 'bulma/css/bulma.min.css';
+import Modal from "react-bootstrap/Modal";
 
 function Contacts() {
   const containerStyle = {
@@ -12,8 +12,15 @@ function Contacts() {
   };
 
     const [contacts, setContacts] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(false);
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
     useEffect(() => {
         fetch('/api/contacts/')
             .then((response) => response.json())
@@ -66,29 +73,16 @@ function Contacts() {
         }
     };
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
 
     return (
-        <>
+        <div className="Applications">
             <div style={containerStyle}>
                 <ContactTable contacts={contacts} onUpdateContact={updateContact} onDeleteContact={deleteContact} />
                 <button className="button is-small" onClick={openModal}>Add Contact</button>
-                {isModalOpen && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <ContactForm onAddContact={addContact} />
-                            <button className="button is-small" onClick={closeModal}>Close</button>
-                        </div>
-                    </div>
-                )}
+                <ContactForm onAddContact={addContact} isOpen={isModalOpen} closeModal={closeModal} />
+
             </div>
-        </>
+        </div>
     );
 }
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.min.css';
-import './Contacts.css'
+// import './Contacts.css'
+import "../../styles/Applications.css";
+import Table from "react-bootstrap/Table";
 function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
   const [editRowId, setEditRowId] = useState(null);
@@ -41,7 +43,7 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
   return (
     <>
-      <table className="table">
+      <Table className="jobTable">
         <thead>
           <tr>
             <th>First Name</th>
@@ -127,7 +129,7 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
       </>
   );
 }
