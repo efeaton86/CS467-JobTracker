@@ -122,10 +122,17 @@ function JobAppTable() {
 
 	return (
 	<>
-    	<Button variant="primary" size="lg" className="btn btn-primary" onClick = {() => navigate("add-job")}>
-			Add Job Application
-		</Button> 
-		<div className="jobAppTable">			
+
+		<div className="jobAppContainer">
+		    <Row>
+		        <Col md={8}><h1><strong>Applications</strong></h1></Col>
+		        <Col md={4}>
+		            <Button variant="primary" size="lg" className="btn btn-primary btn-add" onClick = {() => navigate("/applications/add-job")}>
+                        Add Job Application
+                    </Button>
+                </Col>
+		    </Row>
+
 			<Modal className="update-modal"  show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
 				<Modal.Title>Update Job</Modal.Title>
