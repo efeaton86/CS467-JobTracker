@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ContactTable from '../components/contacts/ContactTable';
 import ContactForm from "../components/contacts/ContactForm";
-import Modal from "react-bootstrap/Modal";
+import {Button, Col, Row} from "react-bootstrap";
 
 function Contacts() {
   const containerStyle = {
@@ -76,11 +76,20 @@ function Contacts() {
 
     return (
         <div className="Applications">
-            <div style={containerStyle}>
-                <ContactTable contacts={contacts} onUpdateContact={updateContact} onDeleteContact={deleteContact} />
-                <button className="button is-small" onClick={openModal}>Add Contact</button>
-                <ContactForm onAddContact={addContact} isOpen={isModalOpen} closeModal={closeModal} />
+            <div className="jobAppContainer">
+                <div>
+                    <Row>
+                        <Col md={8}><h1><strong>Contacts</strong></h1></Col>
+                        <Col md={4}>
+                            <Button variant="primary" size="lg" className="btn btn-primary btn-add" onClick={openModal}>
+                                Add Contact
+                            </Button>
+                        </Col>
+                    </Row>
+                    <ContactTable contacts={contacts} onUpdateContact={updateContact} onDeleteContact={deleteContact} />
+                    <ContactForm onAddContact={addContact} isOpen={isModalOpen} closeModal={closeModal} />
 
+                </div>
             </div>
         </div>
     );
