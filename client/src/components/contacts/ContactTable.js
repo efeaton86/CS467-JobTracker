@@ -4,10 +4,20 @@ import 'bulma/css/bulma.min.css';
 import "../../styles/Applications.css";
 import Table from "react-bootstrap/Table";
 import ContactTableRow from "./ContactTableRow";
+import ContactUpdateForm from "./ContactUpdateForm";
 function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
   const [editRowId, setEditRowId] = useState(null);
   const [editedData, setEditedData] = useState({});
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const handleEditClick = (rowId) => {
     setEditRowId(rowId);
@@ -33,6 +43,7 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
     if (response.ok) {
       onUpdateContact(rowId, editedData);
       setEditRowId(null);
+      setEditedData({})
     } else {
       // TODO: refactor this to display fields with an error
       console.error('Error updating contact.');
@@ -44,6 +55,7 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
   return (
     <>
+      <ContactUpdateForm isOpen={isModalOpen} onUpdateContact={handleUpdateClick}/>
       <Table className="jobTable">
         <thead>
           <tr>
@@ -66,7 +78,9 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
                 handleEditClick,
                 handleCancelClick,
                 handleDeleteClick,
-                handleUpdateClick})
+                handleUpdateClick,
+                openModal,
+                closeModal})
           ))}
         </tbody>
       </Table>

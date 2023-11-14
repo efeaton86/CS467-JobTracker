@@ -41,7 +41,6 @@ class ContactsResource(Resource):
         for contact in mongo.db.contacts.find({"user_id": "123"}): # user_id
             user_contacts.append(contact)
         test = ContactSchema().dump(user_contacts, many=True)
-        print(test)
         return test, 200
 
     @contact_api.expect(contact_model, validate=True)

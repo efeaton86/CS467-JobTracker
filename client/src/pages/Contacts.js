@@ -4,12 +4,6 @@ import ContactForm from "../components/contacts/ContactForm";
 import {Button, Col, Row} from "react-bootstrap";
 
 function Contacts() {
-  const containerStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-  };
 
     const [contacts, setContacts] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
