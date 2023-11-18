@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import ContactTable from '../components/contacts/ContactTable';
 import ContactForm from "../components/contacts/ContactForm";
 import {Button, Col, Row} from "react-bootstrap";
+import ContactUpdateForm from "../components/contacts/ContactUpdateForm";
 
 function Contacts() {
 
     const [contacts, setContacts] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
@@ -15,6 +17,16 @@ function Contacts() {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const openUpdateModal = () => {
+    setIsUpdateModalOpen(true);
+};
+
+const closeUpdateModal = () => {
+    setIsUpdateModalOpen(false);
+};
+
+
     useEffect(() => {
         fetch('/api/contacts/')
             .then((response) => response.json())
@@ -78,10 +90,14 @@ function Contacts() {
                             <Button variant="primary" size="lg" className="btn btn-primary btn-add" onClick={openModal}>
                                 Add Contact
                             </Button>
+                            <Button variant="primary" size="lg" className="btn btn-primary btn-add" onClick={openUpdateModal}>
+                                Update Contact
+                            </Button>
                         </Col>
                     </Row>
                     <ContactTable contacts={contacts} onUpdateContact={updateContact} onDeleteContact={deleteContact} />
                     <ContactForm onAddContact={addContact} isOpen={isModalOpen} closeModal={closeModal} />
+                    <ContactUpdateForm contacts={contacts} onUpdateContact={updateContact} isOpen={isUpdateModalOpen} closeModal={closeUpdateModal} />
 
                 </div>
             </div>

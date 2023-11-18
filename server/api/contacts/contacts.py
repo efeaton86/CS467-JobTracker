@@ -95,9 +95,9 @@ class ContactResource(Resource):
         # authorization_header = request.headers.get('Authorization')
         # user_jwt = authorization_header.split("Bearer ")[1]
         # user_id = user_jwt
-
-        filter_by = {"_id": ObjectId(id)}
         data = request.get_json()
+        filter_by = {"_id": ObjectId(data.pop("_id"))}
+
         data_to_update = {"$set": data}
 
         update_result = mongo.db['contacts'].update_one(filter_by, data_to_update)

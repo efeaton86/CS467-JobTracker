@@ -3,9 +3,10 @@ import {Button, Form} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Stack from "react-bootstrap/Stack";
 
-function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
+function ContactUpdateForm({contacts, onUpdateContact,  isOpen, closeModal}) {
 
     const initialFormData = {
+        _id: '',
         first_name: '',
         last_name: '',
         mobile_phone: '',
@@ -16,10 +17,20 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    const [updatedData, setUpdatedData] = useState(initialFormData);
+    const [selectedContactId, setSelectedContactId] = useState(null)
+
+    const handleContactIDChange = (e) => {
+        const id = e.target.value
+        const selectedContact = contacts.find((contact) => contact._id === id);
+
+      setSelectedContactId(id);
+      setUpdatedData(selectedContact);
+    };
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setFormData(prev => {
+        setUpdatedData(prev => {
             return ({
                 ...prev,
                 [name]: value,
@@ -29,9 +40,35 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // update server side data
+        handleUpdateClick(selectedContactId)
+        // update client side data
         onUpdateContact(formData);
+
         setFormData(initialFormData);
+        closeModal()
     };
+
+    const handleUpdateClick = async (rowId) => {
+      try {
+        const response = await fetch(`/api/contacts/${rowId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedData),
+        });
+        if (response.ok) {
+          setSelectedContactId(null);
+          setUpdatedData(initialFormData)
+        } else {
+          // TODO: refactor this to display fields with an error
+          console.error('Error updating contact.');
+        }
+      } catch (error) {
+        console.error('Error updating contact:', error);
+      }
+};
 
     return (
         <Modal show={isOpen} className="update-modal">
@@ -41,11 +78,20 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
             <Modal.Body>
                 <Form>
                     <Form.Group>
+                        <label htmlFor="_id">Select Contact to Edit:</label>
+                        <select name="_id" value={selectedContactId} onChange={handleContactIDChange}>
+                          <option value="">Select a Relationship</option>
+                          {contacts.length > 0 && contacts?.map((contact)=>(
+                            <option key={contact._id} value={contact._id}>{contact.first_name + " " + contact.last_name}</option>
+                          ))}
+                        </select>
+                    </Form.Group>
+                    <Form.Group>
                         <Form.Label>First Name:</Form.Label>
                         <Form.Control
                             type="text"
                             name="first_name"
-                            value={formData.first_name}
+                            value={updatedData.first_name}
                             onChange={handleChange}/>
                     </Form.Group>
                     <Form.Group>
@@ -53,7 +99,7 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
                         <Form.Control
                             type="text"
                             name="last_name"
-                            value={formData.last_name}
+                            value={updatedData.last_name}
                             onChange={handleChange}/>
                     </Form.Group>
                     <Form.Group>
@@ -61,7 +107,7 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
                         <Form.Control
                             type="text"
                             name="mobile_phone"
-                            value={formData.mobile_phone}
+                            value={updatedData.mobile_phone}
                             onChange={handleChange}/>
                     </Form.Group>
                     <Form.Group>
@@ -69,7 +115,7 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
                         <Form.Control
                             type="text"
                             name="work_phone"
-                            value={formData.work_phone}
+                            value={updatedData.work_phone}
                             onChange={handleChange}/>
                     </Form.Group>
                     <Form.Group>
@@ -77,7 +123,7 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
                         <Form.Control
                             type="text"
                             name="email"
-                            value={formData.email}
+                            value={updatedData.email}
                             onChange={handleChange}/>
                     </Form.Group>
                     <Form.Group>
@@ -85,7 +131,7 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
                         <Form.Control
                             type="text"
                             name="linkedin"
-                            value={formData.linkedin}
+                            value={updatedData.linkedin}
                             onChange={handleChange}/>
                     </Form.Group>
                     <Form.Group>
@@ -93,7 +139,7 @@ function ContactUpdateForm({onUpdateContact, contact, isOpen, closeModal}) {
                         <Form.Control
                             type="text"
                             name="employer"
-                            value={formData.employer}
+                            value={updatedData.employer}
                             onChange={handleChange}/>
                     </Form.Group>
                 </Form>

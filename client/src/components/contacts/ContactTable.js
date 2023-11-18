@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.min.css';
-// import './Contacts.css'
+
 import "../../styles/Applications.css";
 import Table from "react-bootstrap/Table";
 import ContactTableRow from "./ContactTableRow";
-import ContactUpdateForm from "./ContactUpdateForm";
+
 function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
   const [editRowId, setEditRowId] = useState(null);
