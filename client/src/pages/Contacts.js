@@ -85,13 +85,16 @@ const closeUpdateModal = () => {
             <div className="jobAppContainer">
                 <div>
                     <Row>
-                        <Col md={8}><h1><strong>Contacts</strong></h1></Col>
-                        <Col md={4}>
+                        <Col md={6}><h1><strong>Contacts</strong></h1></Col>
+                        <Col md={3}>
                             <Button variant="primary" size="lg" className="btn btn-primary btn-add" onClick={openModal}>
                                 Add Contact
                             </Button>
+
+                        </Col>
+                        <Col md={3}>
                             <Button variant="primary" size="lg" className="btn btn-primary btn-add" onClick={openUpdateModal}>
-                                Update Contact
+                                Edit Contact
                             </Button>
                         </Col>
                     </Row>

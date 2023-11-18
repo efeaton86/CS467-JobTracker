@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {Button, FloatingLabel, Form} from "react-bootstrap";
+import {Button, Col, FloatingLabel, Form, Row} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Stack from "react-bootstrap/Stack";
 
-function ContactForm({onAddContact, isOpen, openModal, closeModal}) {
+function ContactForm({onAddContact, isOpen, closeModal}) {
 
     const initialFormData = {
         first_name: '',
@@ -40,62 +40,71 @@ function ContactForm({onAddContact, isOpen, openModal, closeModal}) {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group>
-                        <Form.Label>First Name:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="first_name"
-                            value={formData.first_name}
-                            onChange={handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Last Name:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="last_name"
-                            value={formData.last_name}
-                            onChange={handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Mobile Phone:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="mobile_phone"
-                            value={formData.mobile_phone}
-                            onChange={handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Work Phone:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="work_phone"
-                            value={formData.work_phone}
-                            onChange={handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Email:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Linkedin:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="linkedin"
-                            value={formData.linkedin}
-                            onChange={handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Employer:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="employer"
-                            value={formData.employer}
-                            onChange={handleChange}/>
-                    </Form.Group>
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group>
+                                <Form.Label>First Name:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="first_name"
+                                    value={formData.first_name}
+                                    onChange={handleChange}/>
+
+                                <Form.Group>
+                                    <Form.Label>Mobile Phone:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="mobile_phone"
+                                        value={formData.mobile_phone}
+                                        onChange={handleChange}/>
+                                </Form.Group>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}/>
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group>
+                                <Form.Label>Last Name:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="last_name"
+                                    value={formData.last_name}
+                                    onChange={handleChange}/>
+                                <Form.Group>
+                                    <Form.Label>Work Phone:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="work_phone"
+                                        value={formData.work_phone}
+                                        onChange={handleChange}/>
+                                </Form.Group>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Linkedin:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="linkedin"
+                                    value={formData.linkedin}
+                                    onChange={handleChange}/>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Form.Group>
+                            <Form.Label>Employer:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="employer"
+                                value={formData.employer}
+                                onChange={handleChange}/>
+                        </Form.Group>
+                    </Row>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -110,7 +119,7 @@ function ContactForm({onAddContact, isOpen, openModal, closeModal}) {
                 </Stack>
             </Modal.Footer>
         </Modal>
-);
+    );
 }
 
 export default ContactForm;
