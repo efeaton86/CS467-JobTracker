@@ -55,7 +55,6 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
 
   return (
     <>
-      <ContactUpdateForm isOpen={isModalOpen} onUpdateContact={handleUpdateClick}/>
       <Table className="jobTable">
         <thead>
           <tr>
@@ -79,8 +78,7 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
                 handleCancelClick,
                 handleDeleteClick,
                 handleUpdateClick,
-                openModal,
-                closeModal})
+              })
           ))}
         </tbody>
       </Table>
