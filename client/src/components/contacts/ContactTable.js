@@ -71,13 +71,7 @@ function ContactTable({contacts, onUpdateContact, onDeleteContact}) {
           {contacts.map((contact) => (
               ContactTableRow({
                 contact,
-                editedData,
-                editRowId,
-                setEditedData,
-                handleEditClick,
-                handleCancelClick,
                 handleDeleteClick,
-                handleUpdateClick,
               })
           ))}
         </tbody>
