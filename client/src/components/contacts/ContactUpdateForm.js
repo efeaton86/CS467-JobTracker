@@ -43,7 +43,7 @@ function ContactUpdateForm({contacts, onUpdateContact, isOpen, closeModal}) {
         // update server side data
         handleUpdateClick(selectedContactId)
         // update client side data
-        onUpdateContact(formData);
+        onUpdateContact(updatedData._id, updatedData);
 
         setFormData(initialFormData);
         closeModal()
@@ -60,7 +60,7 @@ function ContactUpdateForm({contacts, onUpdateContact, isOpen, closeModal}) {
             });
             if (response.ok) {
                 setSelectedContactId(null);
-                setUpdatedData(initialFormData)
+
             } else {
                 // TODO: refactor this to display fields with an error
                 console.error('Error updating contact.');

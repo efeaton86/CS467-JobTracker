@@ -6,7 +6,7 @@ import {Button} from "react-bootstrap";
 function ContactTableRow({contact, handleDeleteClick}) {
     return (
         <>
-            <tr  key={contact._id}>
+            <tr key={contact._id}>
                 <td>
                     {contact.first_name}
                 </td>

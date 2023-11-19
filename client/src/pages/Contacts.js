@@ -26,7 +26,6 @@ const closeUpdateModal = () => {
     setIsUpdateModalOpen(false);
 };
 
-
     useEffect(() => {
         fetch('/api/contacts/')
             .then((response) => response.json())

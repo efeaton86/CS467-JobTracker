@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Col, FloatingLabel, Form, Row} from "react-bootstrap";
+import {Button, Col, Form, Row} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Stack from "react-bootstrap/Stack";
 
