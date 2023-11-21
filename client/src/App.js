@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 // Configure routing
-import { BrowserRouter, Router, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import AddJob from "./components/AddJobApp";

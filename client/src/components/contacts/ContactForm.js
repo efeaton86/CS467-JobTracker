@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import 'bulma/css/bulma.min.css';
+import {Button, Col, Form, Row} from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+import Stack from "react-bootstrap/Stack";
 
-function ContactForm({onAddContact}) {
+function ContactForm({onAddContact, isOpen, closeModal}) {
 
     const initialFormData = {
         first_name: '',
@@ -17,7 +19,12 @@ function ContactForm({onAddContact}) {
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
+        setFormData(prev => {
+            return ({
+                ...prev,
+                [name]: value,
+            })
+        });
     };
 
     const handleSubmit = (e) => {
@@ -27,95 +34,91 @@ function ContactForm({onAddContact}) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="field">
-                <label className="label">First Name: </label>
-                <div className="control">
-                    <input
-                        className="input"
-                        type="text"
-                        name="first_name"
-                        value={formData.first_name}
-                        onChange={handleChange}
-                    />
-                </div>
-            </div>
+        <Modal show={isOpen} className="update-modal">
+            <Modal.Header closeButton onClick={closeModal}>
+                <Modal.Title>Add Contact</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group>
+                                <Form.Label>First Name:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="first_name"
+                                    value={formData.first_name}
+                                    onChange={handleChange}/>
 
-            <div className="field">
-                <label className="label">Last Name: </label>
-                <div className="control">
-                    <input
-                        className="input"
-                        type="text"
-                        name="last_name"
-                        value={formData.last_name}
-                        onChange={handleChange}
-                    />
-                </div>
-
-            </div>
-            <div className="field">
-               <label className="label">Mobile Phone: </label>
-                <div className="control">
-                    <input
-                        className="input"
-                        type="text"
-                        name="mobile_phone"
-                        value={formData.mobile_phone}
-                        onChange={handleChange}
-                    />
-                </div>
-            </div>
-            <div className="field">
-               <label className="label">Work Phone: </label>
-                <div className="control">
-                    <input
-                        className="input"
-                        type="text"
-                        name="work_phone"
-                        value={formData.work_phone}
-                        onChange={handleChange}
-                    />
-                </div>
-            </div>
-            <div className="field">
-               <label className="label">Email: </label>
-                <div className="control">
-                    <input
-                        className="input"
-                        type="text"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                </div>
-            </div>
-            <div className="field">
-               <label className="label">Linkedin: </label>
-                <div className="control">
-                    <input
-                        className="input"
-                        type="text"
-                        name="linkedin"
-                        value={formData.linkedin}
-                        onChange={handleChange}
-                    />
-                </div>
-            </div>
-            <div className="field">
-               <label className="label">Employer:  </label>
-                <div className="control">
-                    <input
-                        className="input"
-                        type="text"
-                        name="employer"
-                        value={formData.employer}
-                        onChange={handleChange}
-                    />
-                </div>
-            </div>
-            <button className="button is-medium" type="submit">Add Contact</button>
-        </form>
+                                <Form.Group>
+                                    <Form.Label>Mobile Phone:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="mobile_phone"
+                                        value={formData.mobile_phone}
+                                        onChange={handleChange}/>
+                                </Form.Group>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}/>
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group>
+                                <Form.Label>Last Name:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="last_name"
+                                    value={formData.last_name}
+                                    onChange={handleChange}/>
+                                <Form.Group>
+                                    <Form.Label>Work Phone:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="work_phone"
+                                        value={formData.work_phone}
+                                        onChange={handleChange}/>
+                                </Form.Group>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Linkedin:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="linkedin"
+                                    value={formData.linkedin}
+                                    onChange={handleChange}/>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Form.Group>
+                            <Form.Label>Employer:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="employer"
+                                value={formData.employer}
+                                onChange={handleChange}/>
+                        </Form.Group>
+                    </Row>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Stack direction="horizontal" gap={3}>
+                    <Button variant="outline-secondary" className="cancel-btn" onClick={closeModal}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleSubmit} type="submit" size="lg" variant="primary"
+                            className="update-btn glow-on-hover">
+                        Save
+                    </Button>
+                </Stack>
+            </Modal.Footer>
+        </Modal>
     );
 }
 

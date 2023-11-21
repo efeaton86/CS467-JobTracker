@@ -1,18 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import ContactTable from '../components/contacts/ContactTable';
 import ContactForm from "../components/contacts/ContactForm";
-import 'bulma/css/bulma.min.css';
+import {Button, Col, Row} from "react-bootstrap";
+import ContactUpdateForm from "../components/contacts/ContactUpdateForm";
 
 function Contacts() {
-  const containerStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-  };
 
     const [contacts, setContacts] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const openUpdateModal = () => {
+    setIsUpdateModalOpen(true);
+};
+
+const closeUpdateModal = () => {
+    setIsUpdateModalOpen(false);
+};
 
     useEffect(() => {
         fetch('/api/contacts/')
@@ -66,29 +78,32 @@ function Contacts() {
         }
     };
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
 
     return (
-        <>
-            <div style={containerStyle}>
-                <ContactTable contacts={contacts} onUpdateContact={updateContact} onDeleteContact={deleteContact} />
-                <button className="button is-small" onClick={openModal}>Add Contact</button>
-                {isModalOpen && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <ContactForm onAddContact={addContact} />
-                            <button className="button is-small" onClick={closeModal}>Close</button>
-                        </div>
-                    </div>
-                )}
+        <div className="Applications">
+            <div className="jobAppContainer">
+                <div>
+                    <Row>
+                        <Col md={6}><h1><strong>Contacts</strong></h1></Col>
+                        <Col md={3}>
+                            <Button variant="primary" size="lg" className="btn btn-primary btn-add" onClick={openModal}>
+                                Add Contact
+                            </Button>
+
+                        </Col>
+                        <Col md={3}>
+                            <Button variant="primary" size="lg" className="btn btn-primary btn-add" onClick={openUpdateModal}>
+                                Edit Contact
+                            </Button>
+                        </Col>
+                    </Row>
+                    <ContactTable contacts={contacts} onUpdateContact={updateContact} onDeleteContact={deleteContact} />
+                    <ContactForm onAddContact={addContact} isOpen={isModalOpen} closeModal={closeModal} />
+                    <ContactUpdateForm contacts={contacts} onUpdateContact={updateContact} isOpen={isUpdateModalOpen} closeModal={closeUpdateModal} />
+
+                </div>
             </div>
-        </>
+        </div>
     );
 }
 

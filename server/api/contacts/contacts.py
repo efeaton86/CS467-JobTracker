@@ -41,7 +41,6 @@ class ContactsResource(Resource):
         for contact in mongo.db.contacts.find({"user_id": "123"}): # user_id
             user_contacts.append(contact)
         test = ContactSchema().dump(user_contacts, many=True)
-        print(test)
         return test, 200
 
     @contact_api.expect(contact_model, validate=True)
@@ -96,9 +95,9 @@ class ContactResource(Resource):
         # authorization_header = request.headers.get('Authorization')
         # user_jwt = authorization_header.split("Bearer ")[1]
         # user_id = user_jwt
-
-        filter_by = {"_id": ObjectId(id)}
         data = request.get_json()
+        filter_by = {"_id": ObjectId(data.pop("_id"))}
+
         data_to_update = {"$set": data}
 
         update_result = mongo.db['contacts'].update_one(filter_by, data_to_update)
