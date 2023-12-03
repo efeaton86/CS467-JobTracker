@@ -13,6 +13,12 @@
   flex-direction: column;
 }
 
+.auth-form-container {
+  padding: 5rem;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
 label {
   text-align: left;
   padding: 0.25rem 0;
