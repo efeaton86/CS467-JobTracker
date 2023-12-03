@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile.dev
+    image: test/jobtrekker-app-api
+    environment:
+      - FLASK_ENV=test
+      - FLASK_DEBUG=1
+    depends_on:
+      - api-mongodb
+    ports:
+      - '5000:5000'
+  api-mongodb:
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    image: test/jobtrekker-app-mongodb
+    expose:
+      - 27017
