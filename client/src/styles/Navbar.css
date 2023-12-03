@@ -78,3 +78,28 @@
 .sidebar a:hover::before {
   width: 100%;
 }
+
+.sidebar .nav-icon{
+  margin-right: 10px;
+  margin-top: 5px;
+  color: white;
+}
+
+
+.logout-button-container{
+  padding-top: 50%;
+}
+
+.sidebar .nav-button{
+  color: white;
+  background: none;
+  border:none;
+  outline: none;
+  font-size: 23px;
+  padding-left: 45px;
+
+}
+
+.sidebar .nav-button:hover{
+  color: yellow;
+}

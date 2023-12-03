@@ -3,7 +3,7 @@ API that allows CRUD operations for a user's job applications
 """
 import time
 
-from flask import Blueprint, request, make_response
+from flask import Blueprint, request, make_response,jsonify
 from flask_restx import Namespace, Resource, fields
 from marshmallow.exceptions import ValidationError
 from bson import ObjectId
@@ -126,3 +126,17 @@ class ApplicationsResource(Resource):
                                        f'found. Cannot delete it.')
 
         return make_response("", 204)
+
+# Retrieve distinct company names from the 'applications' collection
+company_model = application_api.model('Company', {
+    'company': fields.String(description='Company name'),
+})
+
+@application_api.route('/companies')
+class CompaniesResource(Resource):
+    @application_api.marshal_with(company_model, as_list=True)
+    def get(self):
+        """Return a list of company names - used for skills page forms"""
+        companies_collection = mongo.db.applications
+        distinct_companies = companies_collection.distinct('company')
+        return [{'company': company} for company in distinct_companies], 200
