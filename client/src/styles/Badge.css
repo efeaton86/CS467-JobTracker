@@ -1,0 +1,43 @@
+/* Badge.css */
+
+.badge {
+    color: black !important;
+    font-size: 16px !important ;
+    font-weight: 500 !important;;
+}
+
+.badge-prospect {
+    background-color: #D2E5EE !important;
+}
+
+.badge-applied {
+    background-color: #FCECC9 !important;
+}
+
+.badge-phonescreen {
+    background-color: #FFD069 !important;
+}
+
+.badge-oa {
+    background-color: #FFBF85 !important;
+}
+
+.badge-int {
+    background-color: #FADEC9 !important;
+}
+
+.badge-negotiating {
+    background-color: #E8DEEE !important;
+}
+
+.badge-reject {
+    background-color: #FFD0D0 !important;
+}
+
+.badge-closed {
+    background-color: #E0E0E0 !important;
+}
+
+.badge-offer {
+    background-color: #DBEDDB !important;
+}
