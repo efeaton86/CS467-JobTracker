@@ -24,7 +24,7 @@ application_model = application_api.model('Application', {
         "Prospect", "Applied", "Phone Screen", "Online Assessment", "Interview: Phone", "Interview: Virtual",
         "Interview: In-office", "Negotiating Offer", "Rejection", "Closed", "Offer"
     ]),
-    'date_applied': fields.Date(description='The date the job was applied'),
+    'date_applied': fields.String(description='The date the job was applied'),
     # 'user_id': fields.String(description='The ID of the user associated with the job', required=True)
 })
 
@@ -52,6 +52,10 @@ class ApplicationsResource(Resource):
         data = request.get_json()
         try:
             application_data = ApplicationSchema().load(data)
+            # Check if date_applied is empty or None and handle it appropriately
+            if not application_data.get('date_applied'):
+                application_data[
+                    'date_applied'] = None  # or application_data['date_applied'] = ""
         except ValidationError as e:
             return {'message': 'Validation error', 'errors': e.messages}
        
