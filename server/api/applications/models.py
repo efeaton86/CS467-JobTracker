@@ -14,4 +14,3 @@ class ApplicationSchema(Schema):
         "Negotiating Offer", "Rejection", "Closed", "Offer"
     ]))
     date_applied = fields.String()
-    # user_id = fields.String() # uncomment when OAuth is implemented

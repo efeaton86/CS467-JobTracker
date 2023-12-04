@@ -6,7 +6,6 @@ import axios from "axios";
 
 function AddJobApp() {
 	const navigate = useNavigate();
-	// const {user} = useAuthContext();
 	const [application, setApplication] = useState({
 		company: "",
 		position: "",
@@ -16,8 +15,7 @@ function AddJobApp() {
 	});
 	const [formErrors, setFormErrors] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
-	
-
+	const [skillsData, setSkillsData] = useState([]);
 
 	const handleChange = (event) => {
 		const {name, value} = event.target;
@@ -38,7 +36,20 @@ function AddJobApp() {
 		setIsSubmit(true);		
 	};
 
+    useEffect(() => {
+        // Fetch skills data when the component mounts
+        const fetchSkills = async () => {
+          try {
+            const res = await axios.get("/api/skills/"); // Replace with your actual API endpoint for skills
+            const skills = res.data;
+            setSkillsData(skills);
+          } catch (error) {
+            console.error("Error fetching skills:", error);
+          }
+        };
 
+        fetchSkills();
+      }, []); // Empty dependency array ensures that this effect runs only once on mount
 
 	 useEffect(() => {
 	 	const addJob = async () => {
@@ -46,11 +57,7 @@ function AddJobApp() {
 	 			application.date_applied = "---";
 	 		}
 
-			
-	 		const res = axios.post("/api/applications/", application, {
-//	 			headers: {
-//	 				'Authorization': `Bearer ${user.token}`
-//	 			}
+	 		const res = await axios.post("/api/applications/", application, {
 	 		})
 	 		.then((res) => console.log(res))
 	 		.catch((err) => console.log(err));
@@ -81,10 +88,6 @@ function AddJobApp() {
 		if(!values.skills) {
 			errors.skills = "Skills is required";
 		}
-		// if(!values.date_applied) {
-		// 	errors.date_applied = "Date Applied is required";
-		// }
-
 		return errors;
 	};
 
@@ -136,8 +139,11 @@ function AddJobApp() {
 							required
 						>	
 							<option label="Select a skill"></option>
-							<option value="skill1">Skill1</option>
-							<option value="skill2">Skill2</option>
+							{skillsData.map((skill) => (
+                                <option value={skill.skill_name}>
+                                  {skill.skill_name}
+                                </option>
+                              ))}
 						</Form.Select>
 						<p className="error">{ formErrors.skills }</p>
 					</FloatingLabel>

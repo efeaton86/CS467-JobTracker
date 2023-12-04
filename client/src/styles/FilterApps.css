@@ -1,0 +1,25 @@
+.filter-area select {
+    display: inline-block;
+    width: 230px;
+    padding: 16px;
+    margin-bottom: 3rem;
+    font-size: 16px;
+
+}
+
+.filter-area {
+    padding-top: 36px;
+}
+
+.filter-label {
+    display: inline;
+    text-align: left;
+    font-weight: 500;
+    margin-right: 3rem;
+}
+
+  .floating-btn {
+    position:fixed !important;
+    bottom:5rem !important;
+    right: 6rem !important;
+  }
