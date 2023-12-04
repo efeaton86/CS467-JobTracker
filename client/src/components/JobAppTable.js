@@ -5,8 +5,9 @@ import Stack from 'react-bootstrap/Stack';
 import Table from 'react-bootstrap/Table';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
+import FilterJobs from './FilterJobs.js'
+import BadgeStatus from './BadgeStatus';
 import "../styles/Applications.css";
-
 import { format } from 'date-fns'
 
 function JobAppTable() {
@@ -16,6 +17,7 @@ function JobAppTable() {
 	const [loading, setLoading] = useState(false);
 	const [isFiltered, setFilter] = useState(false);
 	const [filteredJobsArray, setFilteredJobs] = useState([])
+	const [skillsData, setSkillsData] = useState([]);
 
 	// Update Modal variables
 	const [show, setShow] = useState(false);
@@ -26,10 +28,6 @@ function JobAppTable() {
 		const fetchJobs = async () => {
 			setLoading(true)
 			const res = await axios.get("/api/applications/", {
-			// Refactor when Authorization is finalized
-//				headers: {
-//					'Authorization': `Bearer ${user.token}`
-//				}
 			})
 			.then((res) => {
 				console.log(res.data)
@@ -41,13 +39,22 @@ function JobAppTable() {
 			})
 		}
         fetchJobs()
-//		if (user) {
-//			fetchJobs()
-//		}
-
 	}, [])
-	//, [user])
 
+    useEffect(() => {
+        // Fetch skills data when the component mounts
+        const fetchSkills = async () => {
+          try {
+            const res = await axios.get("/api/skills/"); // Replace with your actual API endpoint for skills
+            const skills = res.data;
+            setSkillsData(skills);
+          } catch (error) {
+            console.error("Error fetching skills:", error);
+          }
+        };
+
+        fetchSkills();
+      }, []); // Empty dependency array ensures that this effect runs only once on mount
 
 	const deleteJob = (id) => {
 		axios.delete(`/api/applications/${id}`, {})
@@ -86,7 +93,95 @@ function JobAppTable() {
 			window.location.reload();
 	};
 
+    const onFilterValuesSelected = (filterValue) => {
 
+		if (filterValue !== 'All') {
+			saveFilteredJobs(filterValue)
+			setFilter(true)
+		}
+		else {
+			setFilteredJobs(applications)
+		}
+
+		console.log(isFiltered)
+	}
+
+	const saveFilteredJobs = (filterValue) => {
+		let jobsArray = []
+
+		applications.forEach(function(job) {
+
+			if (filterValue === 'Prospect' && job.status === 'Prospect') {
+
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Applied' && job.status === 'Applied') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Phone Screen' && job.status === 'Phone Screen') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Online Assessment' && job.status === 'Online Assessment') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Phone Screen' && job.status === 'Phone Screen') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Interview: Phone' && job.status === 'Interview: Phone') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Interview: Virtual' && job.status === 'Interview: Virtual') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Interview: In-office' && job.status === 'Interview: In-office') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Negotiating Offer' && job.status === 'Negotiating Offer') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Rejection' && job.status === 'Rejection') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Closed' && job.status === 'Closed') {
+				jobsArray.push(job)
+			}
+			else if (filterValue === 'Offer' && job.status === 'Offer') {
+				jobsArray.push(job)
+			}
+
+		});
+
+		setFilteredJobs(jobsArray)
+
+	}
+
+	let filtered_table_data = filteredJobsArray.map((filteredJob, index) => {
+		console.log(filteredJobsArray)
+		return (
+			<tr data-index={index} key={filteredJob._id}>
+				<td>{filteredJob.company}</td>
+				<td>{filteredJob.position}</td>
+				<td>{filteredJob.skills}</td>
+				<td><BadgeStatus statusSelected={filteredJob.status} /></td>
+				{filteredJob.date_applied === "---" ? (
+						<>
+							<td>--- </td>
+						</>
+						) : (
+							<td>{format(new Date(filteredJob.date_applied), "MM/dd/yyyy")} </td>
+
+				)}
+				<td className="action-col">
+					<a onClick={() => updateJob(filteredJob)} size="sm" className="action-links">
+					    Edit
+					</a>
+					<a onClick={() => deleteJob(filteredJob._id)} size="sm" className="action-links" >
+					    Delete
+					</a>
+				</td>
+			</tr>
+		);
+	})
 
 	let table_data = applications.map((application, index) => {
 	    console.log(application._id);
@@ -96,7 +191,7 @@ function JobAppTable() {
 
 				<td>{application.position}</td>
                 <td>{application.skills}</td>
-				<td>{application.status}</td>
+				<td><BadgeStatus statusSelected={application.status}/></td>
 				{application.date_applied === "---" ? (
 						<>
 							<td>--- </td>
@@ -132,7 +227,7 @@ function JobAppTable() {
                     </Button>
                 </Col>
 		    </Row>
-
+            <FilterJobs filterValueSelected={onFilterValuesSelected} />
 			<Modal className="update-modal"  show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
 				<Modal.Title>Update Job</Modal.Title>
@@ -172,15 +267,17 @@ function JobAppTable() {
 						className="mb-3"
 					>
 						<Form.Select
-						name="Skills"
+						name="skills"
 						value={updatedJob.skills ? updatedJob.skills : ""}
 						onChange={handleChange}
 						required
 						>
-						<option label="Select skills"></option>
-						<option value="skill1">skill1</option>
-						<option value="skill2">skill2</option>
-
+                            <option label="Select skills"></option>
+                            {skillsData.map((skill) => (
+                                <option key={skill._id} value={skill.skill_name}>
+                                  {skill.skill_name}
+                                </option>
+                              ))}
 
 						</Form.Select>
 					</FloatingLabel>
@@ -195,7 +292,7 @@ function JobAppTable() {
 						onChange={handleChange}
 						required
 						>
-						<option label="Select a stage"></option>
+						<option label="Select a Status"></option>
 						<option value="Prospect">Prospect</option>
 						<option value="Applied">Applied</option>
 						<option value="Phone Screen">Phone Screen</option>
@@ -209,6 +306,7 @@ function JobAppTable() {
 						<option value="Offer">Offer</option>
 						</Form.Select>
 					</FloatingLabel>
+
 					<FloatingLabel
 						controlId="floatingInput"
 						label="Date Applied"
@@ -218,6 +316,7 @@ function JobAppTable() {
 						type="date"
 						name="date_applied"
 						value={updatedJob.date_applied ? updatedJob.date_applied : ""}
+						onChange={handleChange}
 						required
 						/>
 					</FloatingLabel>
@@ -228,7 +327,7 @@ function JobAppTable() {
 				</Modal.Body>
 				<Modal.Footer>
 				<Stack direction="horizontal" gap={3}>
-					<Button variant="outline-secondary" className="cancel-btn">
+					<Button variant="outline-secondary" className="cancel-btn" onClickCapture={handleClose}>
 					Cancel
 					</Button>
 					<Button size="lg" variant="primary" className="update-btn glow-on-hover" onClick={saveUpdatedJob}>
@@ -251,8 +350,13 @@ function JobAppTable() {
 					</thead>
                     { applications.length ? (
 						<>
-							<tbody>{table_data}</tbody>
-						</>
+                            {isFiltered ? (
+                                <tbody>{filtered_table_data}</tbody>
+
+                            ) : (
+                                <tbody>{table_data}</tbody>
+                            )}
+                        </>
 					) : (
 						<tbody>
 							<tr className="no-data"><td>No jobs right now. Start applying!</td></tr>
