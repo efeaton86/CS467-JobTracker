@@ -1,7 +1,7 @@
 import React from "react";
 
 // Configure routing
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import AddJob from "./components/AddJobApp";
@@ -21,6 +21,7 @@ function App() {
       <div className="App">
           <BrowserRouter>
              <Routes>
+               <Route path="/" element={<Navigate to="/Applications" /> } />
                <Route path="/applications" element={<Applications /> } />
                <Route path="/applications/add-job" element={<AddJob />} />
                <Route path="/contacts" element={<Contacts />} />

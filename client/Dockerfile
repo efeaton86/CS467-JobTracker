@@ -2,7 +2,6 @@
 FROM node:20-alpine as build-step
 
 WORKDIR /app
-
 ENV PATH /app/node_modules/.bin:$PATH
 
 COPY ./client .
